@@ -120,7 +120,7 @@
   }
 
   /* ---------- layered scroll motion: bg parallax + scale breathe + counter-drift on text ---------- */
-  const scenes = Array.from(document.querySelectorAll(".scene, .collection"));
+  const scenes = Array.from(document.querySelectorAll(".scene, .collection, .campaign"));
   let ticking = false;
 
   function clamp(v, min, max) {
@@ -143,7 +143,7 @@
         bg.style.transform = `translate3d(0, ${offset}px, 0) scale(${scale})`;
       }
 
-      const frame = section.querySelector(".scene__frame, .collection__content");
+      const frame = section.querySelector(".scene__frame, .collection__content, .campaign__frame");
       if (frame) {
         frame.style.transform = `translate3d(0, ${normalized * -14}px, 0)`;
       }
