@@ -707,15 +707,18 @@ button {
 }
 
 .community__grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(20px, 3vw, 40px);
-  max-width: 880px;
+  columns: 3 260px;
+  column-gap: clamp(20px, 3vw, 40px);
+  max-width: 980px;
   margin: 0 auto;
   text-align: left;
 }
 
 .community__card {
+  display: inline-block;
+  width: 100%;
+  break-inside: avoid;
+  margin-bottom: clamp(20px, 3vw, 40px);
   background: #131313;
   border: 1px solid rgba(244,242,238,0.1);
   border-radius: 4px;
@@ -744,6 +747,27 @@ button {
   letter-spacing: 0.04em;
   color: var(--fg-faint);
   padding: 0 24px 24px;
+}
+
+.community__card--text {
+  padding: 30px 24px 26px;
+}
+
+.community__card--text blockquote { padding: 0 0 16px; }
+.community__card--text cite { padding: 0; }
+
+.community__avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-bottom: 18px;
+  font-family: var(--serif);
+  font-size: 1rem;
+  color: #0a0a0a;
+  background: var(--c, var(--fg-dim));
 }
 
 /* ============================================================
@@ -785,7 +809,14 @@ button {
   .design__media img { aspect-ratio: 16/10; }
 
   .community__grid {
-    grid-template-columns: 1fr;
+    columns: 2 240px;
+    max-width: 620px;
+  }
+}
+
+@media (max-width: 560px) {
+  .community__grid {
+    columns: 1;
     max-width: 420px;
   }
 }
