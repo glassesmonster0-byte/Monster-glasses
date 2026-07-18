@@ -1,0 +1,567 @@
+{
+  "sections": {
+    "home-intro": {
+      "type": "home-intro",
+      "settings": {
+        "intro_tag": "Vine Koleksiyonu"
+      },
+      "blocks": {
+        "rail-0": {
+          "type": "rail_dot",
+          "settings": {
+            "target": "onyx",
+            "label": "Oniks",
+            "accent": "#cfd2d6"
+          }
+        },
+        "rail-1": {
+          "type": "rail_dot",
+          "settings": {
+            "target": "noir-gold",
+            "label": "Kara Altın",
+            "accent": "#d9b26a"
+          }
+        },
+        "rail-2": {
+          "type": "rail_dot",
+          "settings": {
+            "target": "cognac",
+            "label": "Konyak",
+            "accent": "#cf9a63"
+          }
+        },
+        "rail-3": {
+          "type": "rail_dot",
+          "settings": {
+            "target": "blush",
+            "label": "Toz Pembe",
+            "accent": "#e6a6b6"
+          }
+        },
+        "rail-4": {
+          "type": "rail_dot",
+          "settings": {
+            "target": "orchid",
+            "label": "Orkide",
+            "accent": "#b48ee0"
+          }
+        },
+        "rail-5": {
+          "type": "rail_dot",
+          "settings": {
+            "target": "glacier",
+            "label": "Buzul",
+            "accent": "#93b3c9"
+          }
+        }
+      },
+      "block_order": [
+        "rail-0",
+        "rail-1",
+        "rail-2",
+        "rail-3",
+        "rail-4",
+        "rail-5"
+      ]
+    },
+    "hero": {
+      "type": "hero",
+      "settings": {
+        "eyebrow": "El Yapımı Gözlük — Vine Koleksiyonu No.07",
+        "subtitle": "Vine Koleksiyonu",
+        "tagline": "Tek siluet. Altı ton. İnce metalden dökülmüş, burma dal desenli bir tapa."
+      }
+    },
+    "design-story": {
+      "type": "design-story",
+      "settings": {
+        "eyebrow": "Siluet",
+        "heading": "Tek bir detay\nüzerine kurulmuş çerçeve.",
+        "body": "Her Vine tapası elde bitirilir — antika kuyumculuktan ilham alan burma dal motifi, ince metalden dökülüp menteşeye yerleştirilir. Oval cam, tel inceliğindeki bir çerçevenin içine oturur; böylece hiçbir şey çevrelediği yüzle yarışmaz."
+      },
+      "blocks": {
+        "spec-0": {
+          "type": "spec",
+          "settings": {
+            "label": "Şekil",
+            "value": "Oval, ince tel çerçeve"
+          }
+        },
+        "spec-1": {
+          "type": "spec",
+          "settings": {
+            "label": "Menteşe",
+            "value": "El dökümü burma motif"
+          }
+        },
+        "spec-2": {
+          "type": "spec",
+          "settings": {
+            "label": "Yapı",
+            "value": "Masif pirinç, kaplama"
+          }
+        },
+        "spec-3": {
+          "type": "spec",
+          "settings": {
+            "label": "Uyum",
+            "value": "Unisex, tek beden"
+          }
+        }
+      },
+      "block_order": [
+        "spec-0",
+        "spec-1",
+        "spec-2",
+        "spec-3"
+      ]
+    },
+    "campaign": {
+      "type": "campaign",
+      "settings": {
+        "eyebrow": "Kampanya",
+        "heading": "Işığa dönük,\nrüzgâra aldırmadan."
+      }
+    },
+    "scene-onyx": {
+      "type": "color-scene",
+      "settings": {
+        "section_id": "onyx",
+        "index_label": "01 / 06",
+        "name": "Oniks",
+        "description": "Saf ve yalın. Gölgeden yontulmuş bir siluet, parlak gümüşle bir arada tutulur.",
+        "accent": "#cfd2d6",
+        "frame_label": "Çerçeve — Parlak Gümüş",
+        "lens_label": "Cam — Düz Siyah",
+        "editorial_image_filename": "onyx-editorial.webp",
+        "detail_image_filename": "onyx-detail.jpeg",
+        "detail_caption": "Detay — Burma menteşe, gümüş"
+      }
+    },
+    "scene-noir-gold": {
+      "type": "color-scene",
+      "settings": {
+        "section_id": "noir-gold",
+        "index_label": "02 / 06",
+        "name": "Kara Altın",
+        "description": "Karanlıkta saklı bir sıcaklık. Altınla çevrili siyah cam, geceye göre kesildi.",
+        "accent": "#d9b26a",
+        "frame_label": "Çerçeve — Altın Kaplama",
+        "lens_label": "Cam — Düz Siyah",
+        "editorial_image_filename": "noir-gold-editorial.webp",
+        "detail_image_filename": "noir-gold-detail.jpeg",
+        "detail_caption": "Detay — Burma menteşe, altın"
+      }
+    },
+    "scene-cognac": {
+      "type": "color-scene",
+      "settings": {
+        "section_id": "cognac",
+        "index_label": "03 / 06",
+        "name": "Konyak",
+        "description": "Güneşli ve ağır çekim. İkindi vaktinin rengini taşıyan bir gradyan.",
+        "accent": "#cf9a63",
+        "frame_label": "Çerçeve — Parlak Gümüş",
+        "lens_label": "Cam — Amber Gradyan",
+        "editorial_image_filename": "cognac-editorial.webp",
+        "detail_image_filename": "cognac-detail.jpeg",
+        "detail_caption": "Detay — Amber gradyan"
+      }
+    },
+    "scene-blush": {
+      "type": "color-scene",
+      "settings": {
+        "section_id": "blush",
+        "index_label": "04 / 06",
+        "name": "Toz Pembe",
+        "description": "Yumuşak hatlar, keskin sezgi. Altın saatin sokaklarına pembe bir cam.",
+        "accent": "#e6a6b6",
+        "frame_label": "Çerçeve — Parlak Gümüş",
+        "lens_label": "Cam — Pembe Gradyan",
+        "editorial_image_filename": "blush-editorial.webp",
+        "detail_image_filename": "blush-detail.jpeg",
+        "detail_caption": "Detay — Pembe gradyan"
+      }
+    },
+    "scene-orchid": {
+      "type": "color-scene",
+      "settings": {
+        "section_id": "orchid",
+        "index_label": "05 / 06",
+        "name": "Orkide",
+        "description": "Mor, bir nefes ortasında yakalanmış. Sessiz bir özgüvenle taşınan soğuk bir ton.",
+        "accent": "#b48ee0",
+        "frame_label": "Çerçeve — Parlak Gümüş",
+        "lens_label": "Cam — Mor Gradyan",
+        "editorial_image_filename": "orchid-editorial.webp",
+        "detail_image_filename": "orchid-detail.jpeg",
+        "detail_caption": "Detay — Mor gradyan"
+      }
+    },
+    "scene-glacier": {
+      "type": "color-scene",
+      "settings": {
+        "section_id": "glacier",
+        "index_label": "06 / 06",
+        "name": "Buzul",
+        "description": "Gökyüzünün çelikle buluştuğu yer. Kuzey ışığından süzülmüş bir gradyan.",
+        "accent": "#93b3c9",
+        "frame_label": "Çerçeve — Parlak Gümüş",
+        "lens_label": "Cam — Mavi-Gri Gradyan",
+        "editorial_image_filename": "glacier-editorial.jpeg",
+        "detail_image_filename": "glacier-detail.jpeg",
+        "detail_caption": "Detay — Mavi-gri gradyan"
+      }
+    },
+    "collection-grid": {
+      "type": "collection-grid",
+      "settings": {
+        "eyebrow": "Tüm Spektrum",
+        "heading": "Tek çerçeve.\nHer ruh hali."
+      },
+      "blocks": {
+        "swatch-0": {
+          "type": "swatch",
+          "settings": {
+            "target": "onyx",
+            "label": "Oniks",
+            "fill_color": "#1c1c1c",
+            "border_color": "#cfd2d6"
+          }
+        },
+        "swatch-1": {
+          "type": "swatch",
+          "settings": {
+            "target": "noir-gold",
+            "label": "Kara Altın",
+            "fill_color": "#1c1c1c",
+            "border_color": "#d9b26a"
+          }
+        },
+        "swatch-2": {
+          "type": "swatch",
+          "settings": {
+            "target": "cognac",
+            "label": "Konyak",
+            "fill_color": "#cf9a63"
+          }
+        },
+        "swatch-3": {
+          "type": "swatch",
+          "settings": {
+            "target": "blush",
+            "label": "Toz Pembe",
+            "fill_color": "#e6a6b6"
+          }
+        },
+        "swatch-4": {
+          "type": "swatch",
+          "settings": {
+            "target": "orchid",
+            "label": "Orkide",
+            "fill_color": "#b48ee0"
+          }
+        },
+        "swatch-5": {
+          "type": "swatch",
+          "settings": {
+            "target": "glacier",
+            "label": "Buzul",
+            "fill_color": "#93b3c9"
+          }
+        }
+      },
+      "block_order": [
+        "swatch-0",
+        "swatch-1",
+        "swatch-2",
+        "swatch-3",
+        "swatch-4",
+        "swatch-5"
+      ]
+    },
+    "community": {
+      "type": "community",
+      "settings": {
+        "eyebrow": "Topluluktan",
+        "heading": "Bizden değil,\nonlardan dinleyin."
+      },
+      "blocks": {
+        "photo-0": {
+          "type": "photo_review",
+          "settings": {
+            "image_filename": "community-1.jpeg",
+            "quote": "Toplantıya girerken bile üstümden çıkarmadım.",
+            "name": "Selin"
+          }
+        },
+        "text-0": {
+          "type": "text_review",
+          "settings": {
+            "avatar_letter": "D",
+            "avatar_color": "#cf9a63",
+            "quote": "Menteşedeki burma detayı için almıştım, asıl rengine aşık oldum.",
+            "name": "Deniz, Konyak sahibi"
+          }
+        },
+        "text-1": {
+          "type": "text_review",
+          "settings": {
+            "avatar_letter": "E",
+            "avatar_color": "#b48ee0",
+            "quote": "Bu kadar hafif olacağını beklemiyordum, takıp unutuyorum.",
+            "name": "Ece, Orkide sahibi"
+          }
+        },
+        "photo-1": {
+          "type": "photo_review",
+          "settings": {
+            "image_filename": "community-2.jpeg",
+            "quote": "Pazar sabahı yürüyüşlerinin ayrılmaz parçası oldu.",
+            "name": "Kaan"
+          }
+        },
+        "text-2": {
+          "type": "text_review",
+          "settings": {
+            "avatar_letter": "A",
+            "avatar_color": "#93b3c9",
+            "quote": "Aradığım gri tam buydu, başka hiçbir yerde bulamamıştım.",
+            "name": "Ayla, Buzul sahibi"
+          }
+        },
+        "text-3": {
+          "type": "text_review",
+          "settings": {
+            "avatar_letter": "M",
+            "avatar_color": "#d9b26a",
+            "quote": "Anneme hediye almıştım, şimdi kendime bir tane daha sipariş ediyorum.",
+            "name": "Mert, Kara Altın sahibi"
+          }
+        },
+        "text-4": {
+          "type": "text_review",
+          "settings": {
+            "avatar_letter": "Z",
+            "avatar_color": "#cfd2d6",
+            "quote": "Kutudan çıkardığım an bile bir hediye gibi hissettirdi.",
+            "name": "Zeynep"
+          }
+        },
+        "text-5": {
+          "type": "text_review",
+          "settings": {
+            "avatar_letter": "B",
+            "avatar_color": "#d9b26a",
+            "quote": "İş seyahatlerinde çantamdan hiç eksik etmiyorum.",
+            "name": "Barış"
+          }
+        },
+        "text-6": {
+          "type": "text_review",
+          "settings": {
+            "avatar_letter": "E",
+            "avatar_color": "#cf9a63",
+            "quote": "Arkadaşım 'nereden aldın' diye sorunca gururla söyledim.",
+            "name": "Elif"
+          }
+        },
+        "text-7": {
+          "type": "text_review",
+          "settings": {
+            "avatar_letter": "O",
+            "avatar_color": "#e6a6b6",
+            "quote": "Yüzüme bu kadar iyi oturan bir çerçeve ilk defa buldum.",
+            "name": "Onur"
+          }
+        },
+        "text-8": {
+          "type": "text_review",
+          "settings": {
+            "avatar_letter": "A",
+            "avatar_color": "#b48ee0",
+            "quote": "Konser gecesinde bile takmaktan vazgeçmedim.",
+            "name": "Aslı"
+          }
+        },
+        "text-9": {
+          "type": "text_review",
+          "settings": {
+            "avatar_letter": "C",
+            "avatar_color": "#93b3c9",
+            "quote": "Numaralı cam taktırdım, sonuç beklediğimden çok daha şık.",
+            "name": "Cem"
+          }
+        },
+        "text-10": {
+          "type": "text_review",
+          "settings": {
+            "avatar_letter": "N",
+            "avatar_color": "#cfd2d6",
+            "quote": "Toz Pembe tonunu görür görmez sepete attım.",
+            "name": "Nazlı"
+          }
+        },
+        "text-11": {
+          "type": "text_review",
+          "settings": {
+            "avatar_letter": "B",
+            "avatar_color": "#d9b26a",
+            "quote": "Dört ay oldu, hâlâ ilk günkü gibi duruyor.",
+            "name": "Burak"
+          }
+        },
+        "text-12": {
+          "type": "text_review",
+          "settings": {
+            "avatar_letter": "İ",
+            "avatar_color": "#cf9a63",
+            "quote": "Düğünde takı gibi durdu, gelin bile nereden aldığımı sordu.",
+            "name": "İrem"
+          }
+        },
+        "text-13": {
+          "type": "text_review",
+          "settings": {
+            "avatar_letter": "T",
+            "avatar_color": "#e6a6b6",
+            "quote": "Sahile giderken artık çantada değil, üzerimde.",
+            "name": "Tolga"
+          }
+        },
+        "text-14": {
+          "type": "text_review",
+          "settings": {
+            "avatar_letter": "S",
+            "avatar_color": "#b48ee0",
+            "quote": "Annem bile beğenip kendine bir tane istedi.",
+            "name": "Sena"
+          }
+        },
+        "text-15": {
+          "type": "text_review",
+          "settings": {
+            "avatar_letter": "Y",
+            "avatar_color": "#93b3c9",
+            "quote": "Ofiste herkes aynı soruyu soruyor: bu nereden?",
+            "name": "Yusuf"
+          }
+        },
+        "text-16": {
+          "type": "text_review",
+          "settings": {
+            "avatar_letter": "P",
+            "avatar_color": "#cfd2d6",
+            "quote": "Menteşedeki detayı görünce başka marka aramayı bıraktım.",
+            "name": "Pelin"
+          }
+        },
+        "text-17": {
+          "type": "text_review",
+          "settings": {
+            "avatar_letter": "E",
+            "avatar_color": "#d9b26a",
+            "quote": "Yol kenarında bozulan güneşliğime göre çok daha dayanıklı çıktı.",
+            "name": "Emre"
+          }
+        },
+        "text-18": {
+          "type": "text_review",
+          "settings": {
+            "avatar_letter": "G",
+            "avatar_color": "#cf9a63",
+            "quote": "Yaz boyu hiç çıkarmadım, gözlük izini bile gururla taşıyorum.",
+            "name": "Gizem"
+          }
+        },
+        "text-19": {
+          "type": "text_review",
+          "settings": {
+            "avatar_letter": "K",
+            "avatar_color": "#e6a6b6",
+            "quote": "Kutusu bile saklanacak kadar güzeldi.",
+            "name": "Kerem"
+          }
+        },
+        "text-20": {
+          "type": "text_review",
+          "settings": {
+            "avatar_letter": "C",
+            "avatar_color": "#b48ee0",
+            "quote": "Orkide tonunu herkes farklı bir şeyle karıştırıyor, hep iltifat alıyorum.",
+            "name": "Ceren"
+          }
+        },
+        "text-21": {
+          "type": "text_review",
+          "settings": {
+            "avatar_letter": "O",
+            "avatar_color": "#93b3c9",
+            "quote": "Babamın hediyesiydi, kendisi de bayıldı.",
+            "name": "Ozan"
+          }
+        },
+        "text-22": {
+          "type": "text_review",
+          "settings": {
+            "avatar_letter": "N",
+            "avatar_color": "#cfd2d6",
+            "quote": "Bu kadar hafif bir çerçeve beklemiyordum, denizde bile takıyorum.",
+            "name": "Naz"
+          }
+        },
+        "text-23": {
+          "type": "text_review",
+          "settings": {
+            "avatar_letter": "A",
+            "avatar_color": "#d9b26a",
+            "quote": "İlk gördüğümde vintage bir parça sandım, öyle de kaldı gözümde.",
+            "name": "Alp"
+          }
+        }
+      },
+      "block_order": [
+        "photo-0",
+        "text-0",
+        "text-1",
+        "photo-1",
+        "text-2",
+        "text-3",
+        "text-4",
+        "text-5",
+        "text-6",
+        "text-7",
+        "text-8",
+        "text-9",
+        "text-10",
+        "text-11",
+        "text-12",
+        "text-13",
+        "text-14",
+        "text-15",
+        "text-16",
+        "text-17",
+        "text-18",
+        "text-19",
+        "text-20",
+        "text-21",
+        "text-22",
+        "text-23"
+      ]
+    }
+  },
+  "order": [
+    "home-intro",
+    "hero",
+    "design-story",
+    "campaign",
+    "scene-onyx",
+    "scene-noir-gold",
+    "scene-cognac",
+    "scene-blush",
+    "scene-orchid",
+    "scene-glacier",
+    "collection-grid",
+    "community"
+  ]
+}

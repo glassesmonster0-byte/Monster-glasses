@@ -1,0 +1,41 @@
+{
+  "general": {
+    "meta": {
+      "tags": "Etiket: {{ tags }}",
+      "page": "Sayfa {{ page }}"
+    },
+    "search": {
+      "placeholder": "Ara",
+      "no_results": "Sonuç bulunamadı",
+      "results_for": "\"{{ terms }}\" için arama sonuçları"
+    },
+    "404": {
+      "title": "Sayfa bulunamadı",
+      "subtext": "Aradığınız sayfa mevcut değil.",
+      "link": "Anasayfaya dön"
+    }
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "Sepete Ekle",
+      "sold_out": "Tükendi",
+      "unavailable": "Mevcut değil",
+      "quantity": "Adet"
+    }
+  },
+  "cart": {
+    "general": {
+      "title": "Sepet",
+      "empty": "Sepetiniz boş",
+      "continue_shopping": "Alışverişe devam et",
+      "checkout": "Ödemeye geç",
+      "remove": "Kaldır",
+      "subtotal": "Ara toplam"
+    }
+  },
+  "blogs": {
+    "article": {
+      "read_more": "Devamını oku"
+    }
+  }
+}

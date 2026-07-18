@@ -1,0 +1,55 @@
+{%- assign product = product -%}
+<section class="product-page">
+  <div class="product-page__media">
+    {%- if product.featured_image -%}
+      <img src="{{ product.featured_image | image_url: width: 1200 }}" alt="{{ product.featured_image.alt | default: product.title | escape }}" width="{{ product.featured_image.width }}" height="{{ product.featured_image.height }}">
+    {%- endif -%}
+    {%- if product.images.size > 1 -%}
+      <div class="product-page__thumbs">
+        {%- for image in product.images -%}
+          <img src="{{ image | image_url: width: 200 }}" alt="{{ image.alt | escape }}" loading="lazy" width="{{ image.width }}" height="{{ image.height }}">
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+  <div class="product-page__info">
+    <p class="eyebrow">{{ product.vendor }}</p>
+    <h1>{{ product.title }}</h1>
+    <p class="product-page__price">
+      {%- if product.price_varies -%}
+        {{ product.price_min | money }} &ndash; {{ product.price_max | money }}
+      {%- else -%}
+        {{ product.price | money }}
+      {%- endif -%}
+    </p>
+
+    {%- form 'product', product -%}
+      <select name="id" class="product-page__variants" {% if product.variants.size == 1 %}hidden{% endif %}>
+        {%- for variant in product.variants -%}
+          <option value="{{ variant.id }}" {% if variant == product.selected_or_first_available_variant %}selected="selected"{% endif %} {% unless variant.available %}disabled="disabled"{% endunless %}>
+            {{ variant.title }}{% unless variant.available %} &mdash; Tükendi{% endunless %}
+          </option>
+        {%- endfor -%}
+      </select>
+
+      <button type="submit" class="scene__cta" {% unless product.selected_or_first_available_variant.available %}disabled{% endunless %}>
+        {%- if product.selected_or_first_available_variant.available -%}
+          Sepete Ekle
+        {%- else -%}
+          Tükendi
+        {%- endif -%}
+      </button>
+    {%- endform -%}
+
+    {%- if product.description != blank -%}
+      <div class="product-page__description">{{ product.description }}</div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Ürün bilgisi",
+  "settings": []
+}
+{% endschema %}

@@ -1,0 +1,63 @@
+<div class="intro" id="intro">
+  <svg class="intro__vine" width="46" height="112" viewBox="0 0 46 112" aria-hidden="true">
+    <path d="M23 4 C 6 20, 40 34, 23 50 C 6 66, 40 80, 23 96 C 14 104, 23 108, 23 108" />
+  </svg>
+  <p class="intro__word" aria-hidden="true">
+    {%- assign mark = shop.name | default: 'Foldsun' | upcase -%}
+    {%- for char in mark -%}
+      <span style="--i:{{ forloop.index0 }}">{{ char }}</span>
+    {%- endfor -%}
+  </p>
+  <p class="intro__tag">{{ section.settings.intro_tag }}</p>
+  <span class="intro__skip">Atla</span>
+</div>
+
+<div class="ambient" id="ambient"></div>
+
+<aside class="rail" id="rail" aria-label="Bölüm navigasyonu">
+  <button class="rail__dot" data-target="hero" aria-label="Giriş"><span></span></button>
+  <button class="rail__dot" data-target="design" aria-label="Tasarım"><span></span></button>
+  <button class="rail__dot" data-target="campaign" aria-label="Kampanya"><span></span></button>
+  {%- for block in section.blocks -%}
+    {%- if block.type == 'rail_dot' -%}
+      <button class="rail__dot" data-target="{{ block.settings.target }}" data-accent="{{ block.settings.accent }}" aria-label="{{ block.settings.label }}"><span></span></button>
+    {%- endif -%}
+  {%- endfor -%}
+  <button class="rail__dot" data-target="collection" aria-label="Tüm Koleksiyon"><span></span></button>
+  <button class="rail__dot" data-target="community" aria-label="Topluluktan"><span></span></button>
+</aside>
+
+{% schema %}
+{
+  "name": "Giriş animasyonu",
+  "settings": [
+    {
+      "type": "text",
+      "id": "intro_tag",
+      "label": "Alt başlık",
+      "default": "Vine Koleksiyonu"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "rail_dot",
+      "name": "Renk navigasyon noktası",
+      "settings": [
+        { "type": "text", "id": "target", "label": "Hedef section ID" },
+        { "type": "text", "id": "label", "label": "Etiket" },
+        { "type": "color", "id": "accent", "label": "Vurgu rengi" }
+      ]
+    }
+  ],
+  "default": {
+    "blocks": [
+      { "type": "rail_dot", "settings": { "target": "onyx", "label": "Oniks", "accent": "#cfd2d6" } },
+      { "type": "rail_dot", "settings": { "target": "noir-gold", "label": "Kara Altın", "accent": "#d9b26a" } },
+      { "type": "rail_dot", "settings": { "target": "cognac", "label": "Konyak", "accent": "#cf9a63" } },
+      { "type": "rail_dot", "settings": { "target": "blush", "label": "Toz Pembe", "accent": "#e6a6b6" } },
+      { "type": "rail_dot", "settings": { "target": "orchid", "label": "Orkide", "accent": "#b48ee0" } },
+      { "type": "rail_dot", "settings": { "target": "glacier", "label": "Buzul", "accent": "#93b3c9" } }
+    ]
+  }
+}
+{% endschema %}

@@ -1,0 +1,42 @@
+<section class="cart-page">
+  <h1>Sepet</h1>
+
+  {%- if cart.item_count == 0 -%}
+    <p class="empty-state">Sepetiniz boş. <a href="{{ routes.all_products_collection_url }}">Alışverişe devam edin</a>.</p>
+  {%- else -%}
+    {%- form 'cart', cart -%}
+      <div class="cart-page__items">
+        {%- for item in cart.items -%}
+          <div class="cart-page__item">
+            {%- if item.image -%}
+              <img src="{{ item.image | image_url: width: 200 }}" alt="{{ item.image.alt | escape }}" width="100" height="100">
+            {%- endif -%}
+            <div class="cart-page__item-info">
+              <a href="{{ item.url }}">{{ item.product.title }}</a>
+              {%- unless item.variant.title == 'Default Title' -%}
+                <p class="cart-page__item-variant">{{ item.variant.title }}</p>
+              {%- endunless -%}
+              <p class="cart-page__item-price">{{ item.final_price | money }}</p>
+            </div>
+            <input type="number" name="updates[{{ forloop.index0 }}]" value="{{ item.quantity }}" min="0" class="cart-page__qty">
+          </div>
+        {%- endfor -%}
+      </div>
+
+      <div class="cart-page__summary">
+        <p class="cart-page__subtotal">Ara toplam: <strong>{{ cart.total_price | money }}</strong></p>
+        <div class="cart-page__actions">
+          <button type="submit" name="update" class="scene__cta scene__cta--soon">Sepeti Güncelle</button>
+          <button type="submit" name="checkout" class="scene__cta">Ödemeye Geç</button>
+        </div>
+      </div>
+    {%- endform -%}
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Sepet içeriği",
+  "settings": []
+}
+{% endschema %}

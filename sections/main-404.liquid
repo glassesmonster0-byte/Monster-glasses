@@ -1,0 +1,16 @@
+<section class="simple-page simple-page--center">
+  <h1>{{ section.settings.heading }}</h1>
+  <p>{{ section.settings.subtext }}</p>
+  <a href="{{ routes.root_url }}" class="scene__cta">{{ section.settings.link_text }}</a>
+</section>
+
+{% schema %}
+{
+  "name": "404 içeriği",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Başlık", "default": "Sayfa bulunamadı" },
+    { "type": "text", "id": "subtext", "label": "Alt metin", "default": "Aradığınız sayfa mevcut değil." },
+    { "type": "text", "id": "link_text", "label": "Bağlantı metni", "default": "Anasayfaya dön" }
+  ]
+}
+{% endschema %}

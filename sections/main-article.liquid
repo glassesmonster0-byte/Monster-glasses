@@ -1,0 +1,21 @@
+<section class="simple-page">
+  <p class="eyebrow">{{ article.published_at | date: '%d.%m.%Y' }}{% if article.author != blank %} &middot; {{ article.author }}{% endif %}</p>
+  <h1>{{ article.title }}</h1>
+  {%- if article.image -%}
+    <img src="{{ article.image | image_url: width: 1200 }}" alt="{{ article.image.alt | default: article.title | escape }}" class="simple-page__hero-image" width="{{ article.image.width }}" height="{{ article.image.height }}">
+  {%- endif -%}
+  <div class="simple-page__content">{{ article.content }}</div>
+
+  {%- if blog.comments_enabled? -%}
+    <div class="simple-page__comments">
+      {{ article.comments_count }} yorum
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Makale içeriği",
+  "settings": []
+}
+{% endschema %}

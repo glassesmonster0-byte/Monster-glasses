@@ -1,0 +1,18 @@
+{%- comment -%}
+  Accepts: product (object)
+{%- endcomment -%}
+<a href="{{ product.url }}" class="pcard">
+  <div class="pcard__media">
+    {%- if product.featured_image -%}
+      <img src="{{ product.featured_image | image_url: width: 700 }}" alt="{{ product.featured_image.alt | default: product.title | escape }}" width="{{ product.featured_image.width }}" height="{{ product.featured_image.height }}" loading="lazy">
+    {%- endif -%}
+  </div>
+  <p class="pcard__title">{{ product.title }}</p>
+  <p class="pcard__price">
+    {%- if product.price_varies -%}
+      {{ product.price_min | money }} &ndash; {{ product.price_max | money }}
+    {%- else -%}
+      {{ product.price | money }}
+    {%- endif -%}
+  </p>
+</a>

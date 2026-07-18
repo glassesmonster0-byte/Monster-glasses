@@ -1,0 +1,30 @@
+<section class="collection-page">
+  <header class="collection-page__header">
+    <h1>{{ blog.title }}</h1>
+  </header>
+
+  {%- if blog.articles.size > 0 -%}
+    <div class="pgrid">
+      {%- for article in blog.articles -%}
+        <a href="{{ article.url }}" class="pcard">
+          <div class="pcard__media">
+            {%- if article.image -%}
+              <img src="{{ article.image | image_url: width: 700 }}" alt="{{ article.image.alt | default: article.title | escape }}" loading="lazy" width="{{ article.image.width }}" height="{{ article.image.height }}">
+            {%- endif -%}
+          </div>
+          <p class="pcard__title">{{ article.title }}</p>
+          <p class="pcard__price">{{ article.published_at | date: '%d.%m.%Y' }}</p>
+        </a>
+      {%- endfor -%}
+    </div>
+  {%- else -%}
+    <p class="empty-state">Henüz yazı yok.</p>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Blog listesi",
+  "settings": []
+}
+{% endschema %}

@@ -1,0 +1,79 @@
+<section class="community" id="community">
+  <p class="eyebrow reveal">{{ section.settings.eyebrow }}</p>
+  <h2 class="reveal">{{ section.settings.heading | newline_to_br }}</h2>
+  <div class="community__grid">
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'photo_review' -%}
+        <figure class="community__card reveal-scale" {{ block.shopify_attributes }}>
+          {%- if block.settings.image -%}
+            <img src="{{ block.settings.image | image_url: width: 500 }}" alt="{{ block.settings.image.alt | escape }}" width="{{ block.settings.image.width }}" height="{{ block.settings.image.height }}">
+          {%- elsif block.settings.image_filename != blank -%}
+            {%- case block.settings.image_filename -%}
+              {%- when 'community-1.jpeg' -%}
+                <img src="{{ block.settings.image_filename | asset_url }}" alt="{{ block.settings.name | escape }}" width="375" height="500">
+              {%- when 'community-2.jpeg' -%}
+                <img src="{{ block.settings.image_filename | asset_url }}" alt="{{ block.settings.name | escape }}" width="488" height="500">
+              {%- else -%}
+                <img src="{{ block.settings.image_filename | asset_url }}" alt="{{ block.settings.name | escape }}" width="500" height="500">
+            {%- endcase -%}
+          {%- endif -%}
+          <blockquote>&ldquo;{{ block.settings.quote }}&rdquo;</blockquote>
+          <cite>&mdash; {{ block.settings.name }}</cite>
+        </figure>
+      {%- elsif block.type == 'text_review' -%}
+        <figure class="community__card community__card--text reveal-scale" {{ block.shopify_attributes }}>
+          <span class="community__avatar" style="--c:{{ block.settings.avatar_color }}">{{ block.settings.avatar_letter }}</span>
+          <blockquote>&ldquo;{{ block.settings.quote }}&rdquo;</blockquote>
+          <cite>&mdash; {{ block.settings.name }}</cite>
+        </figure>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Topluluktan",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Üst etiket",
+      "default": "Topluluktan"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Başlık (yeni satır = <br>)",
+      "default": "Bizden değil,\nonlardan dinleyin."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "photo_review",
+      "name": "Fotoğraflı yorum",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Fotoğraf (özel yükleme)" },
+        { "type": "text", "id": "image_filename", "label": "Fotoğraf dosya adı (tema varlıkları)", "info": "Yukarıda özel görsel seçilmezse bu dosya adı assets/ klasöründen kullanılır." },
+        { "type": "textarea", "id": "quote", "label": "Yorum" },
+        { "type": "text", "id": "name", "label": "İsim" }
+      ]
+    },
+    {
+      "type": "text_review",
+      "name": "Metin yorum",
+      "settings": [
+        { "type": "text", "id": "avatar_letter", "label": "Baş harf" },
+        { "type": "color", "id": "avatar_color", "label": "Rozet rengi", "default": "#888888" },
+        { "type": "textarea", "id": "quote", "label": "Yorum" },
+        { "type": "text", "id": "name", "label": "İsim" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Topluluktan"
+    }
+  ]
+}
+{% endschema %}

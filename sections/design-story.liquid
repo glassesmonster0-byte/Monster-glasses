@@ -1,0 +1,75 @@
+<section class="design" id="design">
+  <div class="design__media reveal-scale">
+    {%- if section.settings.image -%}
+      <img src="{{ section.settings.image | image_url: width: 1200 }}" alt="{{ section.settings.image.alt | default: section.settings.heading | escape }}" width="{{ section.settings.image.width }}" height="{{ section.settings.image.height }}">
+    {%- else -%}
+      <img src="{{ 'design-studio.jpeg' | asset_url }}" alt="{{ section.settings.heading | escape }}" width="800" height="800">
+    {%- endif -%}
+  </div>
+  <div class="design__text">
+    <p class="eyebrow reveal">{{ section.settings.eyebrow }}</p>
+    <h2 class="reveal">{{ section.settings.heading | newline_to_br }}</h2>
+    <p class="reveal">{{ section.settings.body }}</p>
+    {%- if section.blocks.size > 0 -%}
+      <ul class="specs reveal">
+        {%- for block in section.blocks -%}
+          <li {{ block.shopify_attributes }}><span>{{ block.settings.label }}</span>{{ block.settings.value }}</li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Tasarım hikayesi",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Görsel"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Üst etiket",
+      "default": "Siluet"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Başlık (yeni satır = <br>)",
+      "default": "Tek bir detay\nüzerine kurulmuş çerçeve."
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Metin",
+      "default": "Her Vine tapası elde bitirilir — antika kuyumculuktan ilham alan burma dal motifi, ince metalden dökülüp menteşeye yerleştirilir. Oval cam, tel inceliğindeki bir çerçevenin içine oturur; böylece hiçbir şey çevrelediği yüzle yarışmaz."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "spec",
+      "name": "Özellik",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Etiket" },
+        { "type": "text", "id": "value", "label": "Değer" }
+      ]
+    }
+  ],
+  "default": {
+    "blocks": [
+      { "type": "spec", "settings": { "label": "Şekil", "value": "Oval, ince tel çerçeve" } },
+      { "type": "spec", "settings": { "label": "Menteşe", "value": "El dökümü burma motif" } },
+      { "type": "spec", "settings": { "label": "Yapı", "value": "Masif pirinç, kaplama" } },
+      { "type": "spec", "settings": { "label": "Uyum", "value": "Unisex, tek beden" } }
+    ]
+  },
+  "presets": [
+    {
+      "name": "Tasarım hikayesi"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,19 @@
+<footer class="footer">
+  <span class="footer__mark">{{ shop.name | default: 'Foldsun' }}</span>
+  <p>{{ section.settings.tagline }}</p>
+  <p class="footer__meta">&copy; {{ 'now' | date: '%Y' }} {{ shop.name | default: 'Foldsun' }} Gözlük</p>
+</footer>
+
+{% schema %}
+{
+  "name": "Alt bilgi",
+  "settings": [
+    {
+      "type": "text",
+      "id": "tagline",
+      "label": "Slogan",
+      "default": "Vine Koleksiyonu — elde işlenmiş, sınırlı sayıda üretildi."
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,129 @@
+{%- assign variant = section.settings.product.selected_or_first_available_variant -%}
+
+<section class="scene" id="{{ section.settings.section_id | default: section.id }}" data-accent="{{ section.settings.accent }}">
+  <div class="scene__bg">
+    {%- if section.settings.editorial_image -%}
+      <img src="{{ section.settings.editorial_image | image_url: width: 1800 }}" alt="{{ section.settings.editorial_image.alt | default: section.settings.name | escape }}" width="{{ section.settings.editorial_image.width }}" height="{{ section.settings.editorial_image.height }}">
+    {%- elsif section.settings.editorial_image_filename != blank -%}
+      <img src="{{ section.settings.editorial_image_filename | asset_url }}" alt="{{ section.settings.name | escape }}" width="640" height="1147">
+    {%- endif -%}
+  </div>
+  <div class="scene__scrim"></div>
+  <div class="scene__frame">
+    <span class="scene__index reveal">{{ section.settings.index_label }}</span>
+    <h2 class="scene__name reveal">{{ section.settings.name }}</h2>
+    <p class="scene__desc reveal">{{ section.settings.description }}</p>
+    <div class="scene__tags reveal">
+      {%- if section.settings.frame_label != blank -%}<span>{{ section.settings.frame_label }}</span>{%- endif -%}
+      {%- if section.settings.lens_label != blank -%}<span>{{ section.settings.lens_label }}</span>{%- endif -%}
+    </div>
+    {%- if variant -%}
+      {%- if variant.available -%}
+        <a class="scene__cta reveal" href="{{ routes.cart_add_url }}?id={{ variant.id }}&quantity=1">Satın Al <span class="scene__cta-price">{{ variant.price | money }}</span></a>
+      {%- else -%}
+        <span class="scene__cta scene__cta--soon reveal">Tükendi</span>
+      {%- endif -%}
+    {%- else -%}
+      <span class="scene__cta scene__cta--soon reveal">Yakında</span>
+    {%- endif -%}
+  </div>
+  {%- if section.settings.detail_image -%}
+    <figure class="detail-card reveal-scale">
+      <img src="{{ section.settings.detail_image | image_url: width: 460 }}" alt="{{ section.settings.detail_image.alt | default: section.settings.detail_caption | escape }}" width="{{ section.settings.detail_image.width }}" height="{{ section.settings.detail_image.height }}">
+      <figcaption>{{ section.settings.detail_caption }}</figcaption>
+    </figure>
+  {%- elsif section.settings.detail_image_filename != blank -%}
+    <figure class="detail-card reveal-scale">
+      <img src="{{ section.settings.detail_image_filename | asset_url }}" alt="{{ section.settings.detail_caption | escape }}" width="800" height="800">
+      <figcaption>{{ section.settings.detail_caption }}</figcaption>
+    </figure>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Renk sahnesi",
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_id",
+      "label": "Section ID (rail navigasyonuyla eşleşmeli)",
+      "info": "örn. onyx, cognac, glacier"
+    },
+    {
+      "type": "text",
+      "id": "index_label",
+      "label": "Sıra etiketi",
+      "default": "01 / 06"
+    },
+    {
+      "type": "text",
+      "id": "name",
+      "label": "Renk adı",
+      "default": "Oniks"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Açıklama"
+    },
+    {
+      "type": "color",
+      "id": "accent",
+      "label": "Vurgu rengi",
+      "default": "#cfd2d6"
+    },
+    {
+      "type": "text",
+      "id": "frame_label",
+      "label": "Çerçeve etiketi",
+      "default": "Çerçeve — Parlak Gümüş"
+    },
+    {
+      "type": "text",
+      "id": "lens_label",
+      "label": "Cam etiketi",
+      "default": "Cam — Düz Siyah"
+    },
+    {
+      "type": "image_picker",
+      "id": "editorial_image",
+      "label": "Editoryal görsel (özel yükleme)"
+    },
+    {
+      "type": "text",
+      "id": "editorial_image_filename",
+      "label": "Editoryal görsel dosya adı (tema varlıkları)",
+      "info": "Yukarıda özel görsel seçilmezse bu dosya adı assets/ klasöründen kullanılır."
+    },
+    {
+      "type": "image_picker",
+      "id": "detail_image",
+      "label": "Detay görseli (özel yükleme)"
+    },
+    {
+      "type": "text",
+      "id": "detail_image_filename",
+      "label": "Detay görseli dosya adı (tema varlıkları)",
+      "info": "Yukarıda özel görsel seçilmezse bu dosya adı assets/ klasöründen kullanılır."
+    },
+    {
+      "type": "text",
+      "id": "detail_caption",
+      "label": "Detay alt yazısı",
+      "default": "Detay"
+    },
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Bağlı ürün",
+      "info": "Boş bırakılırsa \"Yakında\" rozeti gösterilir."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Renk sahnesi"
+    }
+  ]
+}
+{% endschema %}

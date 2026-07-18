@@ -1,0 +1,75 @@
+<section class="collection" id="collection">
+  <div class="collection__bg">
+    {%- if section.settings.image -%}
+      <img src="{{ section.settings.image | image_url: width: 1800 }}" alt="{{ section.settings.image.alt | escape }}" width="{{ section.settings.image.width }}" height="{{ section.settings.image.height }}">
+    {%- else -%}
+      <img src="{{ 'collection-tray.jpeg' | asset_url }}" alt="" width="800" height="800">
+    {%- endif -%}
+  </div>
+  <div class="collection__scrim"></div>
+  <div class="collection__content">
+    <p class="eyebrow reveal">{{ section.settings.eyebrow }}</p>
+    <h2 class="reveal">{{ section.settings.heading | newline_to_br }}</h2>
+    {%- if section.blocks.size > 0 -%}
+      <div class="swatches reveal">
+        {%- for block in section.blocks -%}
+          <button data-target="{{ block.settings.target }}" {{ block.shopify_attributes }}>
+            <i style="--c:{{ block.settings.fill_color }}{% if block.settings.border_color != blank %};border-color:{{ block.settings.border_color }}{% endif %}"></i>{{ block.settings.label }}
+          </button>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Koleksiyon özeti",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Arka plan görseli"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Üst etiket",
+      "default": "Tüm Spektrum"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Başlık (yeni satır = <br>)",
+      "default": "Tek çerçeve.\nHer ruh hali."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "swatch",
+      "name": "Renk düğmesi",
+      "settings": [
+        { "type": "text", "id": "target", "label": "Hedef section ID" },
+        { "type": "text", "id": "label", "label": "Etiket" },
+        { "type": "color", "id": "fill_color", "label": "Dolgu rengi", "default": "#888888" },
+        { "type": "color", "id": "border_color", "label": "Kenarlık rengi (opsiyonel)" }
+      ]
+    }
+  ],
+  "default": {
+    "blocks": [
+      { "type": "swatch", "settings": { "target": "onyx", "label": "Oniks", "fill_color": "#1c1c1c", "border_color": "#cfd2d6" } },
+      { "type": "swatch", "settings": { "target": "noir-gold", "label": "Kara Altın", "fill_color": "#1c1c1c", "border_color": "#d9b26a" } },
+      { "type": "swatch", "settings": { "target": "cognac", "label": "Konyak", "fill_color": "#cf9a63" } },
+      { "type": "swatch", "settings": { "target": "blush", "label": "Toz Pembe", "fill_color": "#e6a6b6" } },
+      { "type": "swatch", "settings": { "target": "orchid", "label": "Orkide", "fill_color": "#b48ee0" } },
+      { "type": "swatch", "settings": { "target": "glacier", "label": "Buzul", "fill_color": "#93b3c9" } }
+    ]
+  },
+  "presets": [
+    {
+      "name": "Koleksiyon özeti"
+    }
+  ]
+}
+{% endschema %}

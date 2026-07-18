@@ -1,0 +1,26 @@
+<section class="collection-page">
+  <header class="collection-page__header">
+    <h1>{{ section.settings.heading | default: 'Koleksiyonlar' }}</h1>
+  </header>
+  <div class="pgrid">
+    {%- for collection in collections -%}
+      <a href="{{ collection.url }}" class="pcard">
+        <div class="pcard__media">
+          {%- if collection.featured_image -%}
+            <img src="{{ collection.featured_image | image_url: width: 700 }}" alt="{{ collection.featured_image.alt | default: collection.title | escape }}" loading="lazy" width="{{ collection.featured_image.width }}" height="{{ collection.featured_image.height }}">
+          {%- endif -%}
+        </div>
+        <p class="pcard__title">{{ collection.title }}</p>
+      </a>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Koleksiyon listesi",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Başlık", "default": "Koleksiyonlar" }
+  ]
+}
+{% endschema %}

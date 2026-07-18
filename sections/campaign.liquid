@@ -1,0 +1,44 @@
+<section class="campaign" id="campaign">
+  <div class="scene__bg">
+    {%- if section.settings.image -%}
+      <img src="{{ section.settings.image | image_url: width: 1800 }}" alt="{{ section.settings.image.alt | escape }}" width="{{ section.settings.image.width }}" height="{{ section.settings.image.height }}">
+    {%- else -%}
+      <img src="{{ 'campaign-silhouette.webp' | asset_url }}" alt="" width="1100" height="1650">
+    {%- endif -%}
+  </div>
+  <div class="campaign__scrim"></div>
+  <div class="campaign__frame">
+    <p class="eyebrow reveal">{{ section.settings.eyebrow }}</p>
+    <h2 class="reveal">{{ section.settings.heading | newline_to_br }}</h2>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Kampanya ara sahnesi",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Görsel"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Üst etiket",
+      "default": "Kampanya"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Başlık (yeni satır = <br>)",
+      "default": "Işığa dönük,\nrüzgâra aldırmadan."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Kampanya ara sahnesi"
+    }
+  ]
+}
+{% endschema %}

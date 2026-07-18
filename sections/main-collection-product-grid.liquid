@@ -1,0 +1,45 @@
+<section class="collection-page">
+  <header class="collection-page__header">
+    <h1>{{ collection.title }}</h1>
+    {%- if collection.description != blank -%}
+      <div class="collection-page__description">{{ collection.description }}</div>
+    {%- endif -%}
+  </header>
+
+  {%- if collection.products.size > 0 -%}
+    {%- paginate collection.products by section.settings.products_per_page -%}
+      <div class="pgrid">
+        {%- for product in collection.products -%}
+          {%- render 'product-card', product: product -%}
+        {%- endfor -%}
+      </div>
+
+      {%- if paginate.pages > 1 -%}
+        <nav class="pagination">
+          {%- if paginate.previous -%}<a href="{{ paginate.previous.url }}">&larr;</a>{%- endif -%}
+          <span>{{ paginate.current_page }} / {{ paginate.pages }}</span>
+          {%- if paginate.next -%}<a href="{{ paginate.next.url }}">&rarr;</a>{%- endif -%}
+        </nav>
+      {%- endif -%}
+    {%- endpaginate -%}
+  {%- else -%}
+    <p class="empty-state">Bu koleksiyonda henüz ürün yok.</p>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Koleksiyon ürünleri",
+  "settings": [
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "label": "Sayfa başına ürün",
+      "min": 4,
+      "max": 48,
+      "step": 4,
+      "default": 24
+    }
+  ]
+}
+{% endschema %}

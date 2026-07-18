@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-404",
+      "settings": {
+        "heading": "Sayfa bulunamadı",
+        "subtext": "Aradığınız sayfa mevcut değil.",
+        "link_text": "Anasayfaya dön"
+      }
+    }
+  },
+  "order": ["main"]
+}

@@ -1,0 +1,31 @@
+<section class="collection-page">
+  <header class="collection-page__header">
+    <h1>Ara</h1>
+    <form action="{{ routes.search_url }}" method="get" role="search" class="search-form">
+      <input type="search" name="q" value="{{ search.terms | escape }}" placeholder="Ara" aria-label="Ara">
+      <input type="hidden" name="type" value="product">
+      <button type="submit" class="scene__cta">Ara</button>
+    </form>
+  </header>
+
+  {%- if search.performed -%}
+    {%- if search.results.size > 0 -%}
+      <div class="pgrid">
+        {%- for item in search.results -%}
+          {%- if item.object_type == 'product' -%}
+            {%- render 'product-card', product: item -%}
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- else -%}
+      <p class="empty-state">&ldquo;{{ search.terms }}&rdquo; için sonuç bulunamadı.</p>
+    {%- endif -%}
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Arama sonuçları",
+  "settings": []
+}
+{% endschema %}

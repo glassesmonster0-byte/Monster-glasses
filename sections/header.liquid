@@ -1,0 +1,18 @@
+<div class="progress" id="progress"></div>
+
+<nav class="nav" id="nav">
+  <a href="{{ routes.root_url }}" class="nav__mark">{{ shop.name | default: 'Foldsun' }}</a>
+  <a href="{{ routes.cart_url }}" class="nav__cart">
+    Sepet
+    {%- if cart.item_count > 0 -%}
+      <span class="nav__cart-count">{{ cart.item_count }}</span>
+    {%- endif -%}
+  </a>
+</nav>
+
+{% schema %}
+{
+  "name": "Üst menü",
+  "settings": []
+}
+{% endschema %}
