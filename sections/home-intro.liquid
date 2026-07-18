@@ -3,8 +3,8 @@
     <path d="M23 4 C 6 20, 40 34, 23 50 C 6 66, 40 80, 23 96 C 14 104, 23 108, 23 108" />
   </svg>
   <p class="intro__word" aria-hidden="true">
-    {%- assign mark = shop.name | default: 'Foldsun' | upcase -%}
-    {%- for char in mark -%}
+    {%- assign mark_chars = shop.name | default: 'Foldsun' | upcase | split: '' -%}
+    {%- for char in mark_chars -%}
       <span style="--i:{{ forloop.index0 }}">{{ char }}</span>
     {%- endfor -%}
   </p>
