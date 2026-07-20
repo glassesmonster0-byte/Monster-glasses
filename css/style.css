@@ -834,6 +834,19 @@ button {
   letter-spacing: 0.05em;
 }
 
+.footer__contact {
+  margin-top: 16px;
+  font-size: 0.78rem;
+  color: var(--fg-faint);
+}
+
+.footer__contact a {
+  color: var(--fg-dim);
+  text-decoration: underline;
+}
+
+.footer__contact a:hover { color: var(--fg); }
+
 /* ============================================================
    RESPONSIVE
    ============================================================ */
