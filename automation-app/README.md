@@ -73,4 +73,18 @@ Panel `http://localhost:3000` adresinde açılır. Sadece localhost'ta dinler, d
 5. Yanlış/eksik token ile deneyin — "bağlı değil" rozeti ve senkronizasyon adımında kırmızı hata + "Shopify'a Tekrar Gönder" butonu görünmeli; buton tekrar denemeyi tetiklemeli.
 6. Opsiyonel: `SHOPIFY_DEFAULT_COLLECTION_ID` ve `SHOPIFY_LOCATION_ID` girerek koleksiyon ataması ve envanter davranışını test edin.
 
-_(Modül 4–6 tamamlandıkça bu bölüme test adımları eklenecek.)_
+### Modül 4 — AI Görsel/Video Üretimi (Higgsfield) ✅
+
+1. higgsfield.ai dashboard'unuzdan bir KEY_ID/KEY_SECRET çifti alıp `.env.local`'e (`HIGGSFIELD_KEY_ID`, `HIGGSFIELD_KEY_SECRET`) girin.
+2. **Önemli:** `HIGGSFIELD_IMAGE_ENDPOINT` ve `HIGGSFIELD_VIDEO_ENDPOINT` değerlerini dashboard'unuzdaki model kataloğunda ilgili modelin ("Nano Banana Pro", "Kling") API sekmesinde gösterilen tam endpoint string'iyle karşılaştırın — bunlar makul varsayılanlar ama Higgsfield'in genel dokümanına erişemediğimiz için kesinlik garanti edemiyoruz. `src/services/aiGeneration/higgsfieldProvider.ts` içindeki yorumda detay var.
+3. Fiyat onayı → Shopify senkronizasyonu başarılı olduğunda içerik üretimi otomatik tetiklenir. Panelde "Üretilen Reklam İçerikleri" altında bir görsel ve bir video kartı, her biri "Üretiliyor…" durumuyla belirir.
+4. Üretim bitince kart içinde görseli/videoyu ve kullanılan prompt'u görmelisiniz; "Onayla / Reddet / Yeniden Üret" butonları aktif olmalı.
+5. Yanlış kimlik bilgileriyle veya yapılandırma eksikken deneyin — her kart bağımsız olarak "failed" durumuna düşüp hata mesajını göstermeli (biri başarısız olsa diğeri yine de denenir), "Yeniden Üret" butonu çalışmalı.
+6. Doğrudan API testi (Shopify adımını atlayıp sadece içerik üretimini test etmek için):
+   ```bash
+   curl -X POST http://localhost:3000/api/products/<PRODUCT_ID>/content
+   curl http://localhost:3000/api/products/<PRODUCT_ID>/content
+   curl -X POST http://localhost:3000/api/products/<PRODUCT_ID>/content/<CONTENT_ID>/approve
+   ```
+
+_(Modül 5–6 tamamlandıkça bu bölüme test adımları eklenecek.)_
