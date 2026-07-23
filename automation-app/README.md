@@ -1,6 +1,8 @@
 # LIAXIS Ürün Otomasyon Paneli
 
-Bu, **yalnızca lokal olarak sizin çalıştıracağınız** bir dahili otomasyon panelidir — herkese açık bir web sitesi değildir. Bir ürün girdiğinizde uygulama fiyat araştırması yapar, Shopify mağazanızı günceller, AI ile reklam görseli/videosu üretir ve (onayınızdan sonra) Instagram/Facebook'a paylaşır.
+Bu, **sadece sizin (marka sahibi) kullanacağınız** bir dahili otomasyon panelidir — genel kullanıma açık bir pazarlama sitesi değil. Bir ürün girdiğinizde uygulama fiyat araştırması yapar, Shopify mağazanızı günceller, AI ile reklam görseli/videosu üretir ve (onayınızdan sonra) Instagram/Facebook'a paylaşır.
+
+Varsayılan kullanım şekli **lokal** (kendi bilgisayarınızda `npm run dev`). Telefondan veya her yerden erişmek isterseniz, şifre korumalı olarak bir bulut sunucuya da taşıyabilirsiniz — aşağıdaki [Bulutta Çalıştırma](#bulutta-çalıştırma-telefondan-erişim) bölümüne bakın.
 
 ## Mimari
 
@@ -33,10 +35,39 @@ Panel `http://localhost:3000` adresinde açılır. Sadece localhost'ta dinler, d
 | `GOOGLE_AI_API_KEY` | **aistudio.google.com/apikey** — "Create API key" ile alınır | Modül 4 — görsel (Nano Banana Pro / `gemini-3-pro-image-preview`) ve video (Veo 3.1 / `veo-3.1-generate-001`) |
 | `KLING_ACCESS_KEY`, `KLING_SECRET_KEY` | **app.klingai.com** > hesap ayarları > API Key sayfası (access key + secret key çifti oluşturun) | Modül 4 — video (Kling, panelden seçilebilir alternatif) |
 | `META_PAGE_ACCESS_TOKEN`, `META_FACEBOOK_PAGE_ID`, `META_INSTAGRAM_BUSINESS_ACCOUNT_ID` | developers.facebook.com'da bir uygulama oluşturup Instagram Business hesabınızı ve Facebook Sayfanızı bağlayarak | Modül 5 |
+| `APP_PASSWORD`, `AUTH_SECRET` | Kendiniz belirlersiniz (`AUTH_SECRET` için `openssl rand -hex 32`) | Panel girişi — sadece internete açık çalıştırırken zorunlu |
 
 ### Google AI (Nano Banana Pro + Veo 3.1) — önemli maliyet notu
 
 Bu iki model **Gemini Developer API üzerinde ücretsiz kotaya sahip değildir** — her çağrı, API anahtarınızın bağlı olduğu Google Cloud projesinde faturalandırma etkinse ücretli olarak çalışır, değilse hata döner. API seviyesinde "önce ücretsiz dene, kota bitince ücretliye geç" diye bir mekanizma yok (bu, proje ayarı, kod değil); bu yüzden uygulama hiçbir zaman sizi haberdar etmeden ücretli bir çağrı yapmaz ya da farklı bir davranışa geçmez — kota/faturalama hatası olduğunda panelde net bir Türkçe mesaj gösterir (`src/services/aiGeneration/quotaError.ts`). Ücretsiz denemek isterseniz Google AI Studio arayüzünden (aistudio.google.com) prototipleme yapabilirsiniz; API üzerinden bu modelleri kullanmak için faturalandırma şart.
+
+## Bulutta Çalıştırma (Telefondan Erişim)
+
+Panel varsayılan olarak lokal çalışır. Telefondan veya bilgisayar açık olmadan her yerden erişmek isterseniz **Railway** öneriyoruz — SQLite veritabanı ve üretilen medya için kalıcı disk (volume) desteği var, kurulum tamamen web arayüzünden, kod/terminal bilgisi gerekmiyor.
+
+**Önce mutlaka panel şifresi belirleyin** — aşağıdaki adımlarda `APP_PASSWORD` ve `AUTH_SECRET` ayarlamadan deploy ederseniz uygulama güvenlik nedeniyle hiç açılmaz (bilerek böyle tasarlandı, şifresiz internete açık kalmasın diye).
+
+### Adım adım (Railway)
+
+1. **railway.app**'a gidip GitHub hesabınızla giriş yapın.
+2. **"New Project" > "Deploy from GitHub repo"** ile bu kodun bulunduğu GitHub reponuzu (`glassesmonster0-byte/Monster-glasses`) seçin.
+3. Proje oluştuktan sonra servisin **Settings** sekmesinde **"Root Directory"** alanına `automation-app` yazın (kod, reponun bir alt klasöründe olduğu için bu adım şart).
+4. Yine **Settings**'te **"Variables"** sekmesine gidip `.env.example`'daki tüm değişkenleri tek tek ekleyin — özellikle:
+   - `APP_PASSWORD` — kendiniz belirlediğiniz bir şifre
+   - `AUTH_SECRET` — bilgisayarınızda terminalde `openssl rand -hex 32` çalıştırıp çıkan değeri yapıştırın
+   - `DATABASE_PATH=/app/data/liaxis.db`
+   - `MEDIA_STORAGE_PATH=/app/data/media`
+   - Diğer tüm API anahtarları (Shopify, Google AI, Kling, Meta) — hangilerini şimdiden ekleyeceğiniz size kalmış, eksik olanlar için panel "bağlı değil" gösterir, çökmez.
+5. **Kalıcı disk ekleyin:** Servis sayfasında **"Volumes" > "New Volume"**, mount path olarak `/app/data` yazın. (Bu olmadan her yeniden başlatmada ürün geçmişiniz ve fiyat/onay kayıtlarınız silinir — Shopify'daki ürünler etkilenmez ama panelin kendi geçmişi kaybolur.)
+6. **"Deploy"** deyin. Birkaç dakika içinde build tamamlanır; Railway size `https://xxxx.up.railway.app` gibi bir adres verir (Settings > Networking > "Generate Domain").
+7. Telefonunuzdan o adresi açın, `APP_PASSWORD` ile giriş yapın.
+
+### Alternatifler
+
+- **Render.com** — benzer bir akış, ama ücretsiz katmanda web servisleri hareketsizken uyuyor (ilk açılış yavaş) ve kalıcı disk ücretli plana bağlı.
+- **Fly.io** — gerçek ücretsiz kalıcı disk sunuyor ama kurulum terminal/CLI (`flyctl`) üzerinden, daha teknik bir adım gerektiriyor.
+
+Hangisini seçerseniz seçin, **panel şifresini kimseyle paylaşmayın** — bu panel mağazanızda ürün oluşturabilir/güncelleyebilir ve sosyal medya hesaplarınıza paylaşım yapabilir.
 
 ## Modül modül test
 
