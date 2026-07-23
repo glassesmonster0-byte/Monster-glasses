@@ -49,4 +49,19 @@ Panel `http://localhost:3000` adresinde açılır. Sadece localhost'ta dinler, d
    curl http://localhost:3000/api/products
    ```
 
-_(Modül 2–6 tamamlandıkça bu bölüme test adımları eklenecek.)_
+### Modül 2 — Fiyat Araştırması ✅
+
+1. `.env.local` içine gerçek bir `SERPAPI_API_KEY` girin (serpapi.com'da ücretsiz plan da yeterli, ~100 arama/ay).
+2. Panelde yeni bir ürün ekleyin — kayıt olur olmaz süreç otomatik olarak "Fiyat araştırması yapılıyor…" durumuna geçer.
+3. Birkaç saniye içinde bulunan fiyatların listesi, medyan fiyat, kâr marjı (%150 varsayılan) ve önerilen satış fiyatı görünmeli.
+4. "Önerilen Fiyatı Onayla" veya manuel bir fiyat girip "Manuel Fiyatla Onayla" ile devam edin — onaylanan fiyat yeşil bir banner'da gösterilmeli ve durum "Shopify güncelleniyor…" adımına geçmeli (Modül 3 tamamlandığında gerçek senkronizasyonu tetikleyecek).
+5. **API anahtarı olmadan test:** `SERPAPI_API_KEY` boşken de deneyin — "Eksik yapılandırma" hatası görünmeli ama panel çökmemeli, ve "manuel fiyat gir" alanı her zaman kullanılabilir olmalı.
+6. Doğrudan API testi:
+   ```bash
+   curl -X POST http://localhost:3000/api/products/<PRODUCT_ID>/price-research
+   curl http://localhost:3000/api/products/<PRODUCT_ID>/price-research
+   curl -X POST http://localhost:3000/api/products/<PRODUCT_ID>/price-research/approve \
+     -H "Content-Type: application/json" -d '{"approvedPrice": 499}'
+   ```
+
+_(Modül 3–6 tamamlandıkça bu bölüme test adımları eklenecek.)_
