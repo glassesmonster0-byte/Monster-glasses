@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { WORKFLOW_IN_PROGRESS_STATUSES, WORKFLOW_STATUS_LABELS } from "@/lib/workflowLabels";
 import { GeneratedContentPanel } from "./GeneratedContentPanel";
 import { SocialPostsPanel } from "./SocialPostsPanel";
 
@@ -48,29 +49,20 @@ type SocialPost = {
   createdAt: string;
 };
 
-const STATUS_LABELS: Record<string, string> = {
-  researching_price: "Fiyat araştırması yapılıyor…",
-  awaiting_price_approval: "Fiyat onayı bekleniyor",
-  updating_shopify: "Shopify güncelleniyor…",
-  generating_content: "Görsel/video üretiliyor…",
-  awaiting_content_approval: "İçerik onayı bekleniyor",
-  posting_social: "Sosyal medyaya paylaşılıyor…",
-  done: "Tamamlandı",
-  failed: "Hata oluştu",
-};
-
-const IN_PROGRESS_STATUSES = new Set([
-  "researching_price",
-  "updating_shopify",
-  "generating_content",
-  "posting_social",
-]);
 
 function formatTRY(value: number) {
   return new Intl.NumberFormat("tr-TR", { style: "currency", currency: "TRY" }).format(value);
 }
 
-export function WorkflowPanel({ productId, productName }: { productId: string; productName: string }) {
+export function WorkflowPanel({
+  productId,
+  productName,
+  onClose,
+}: {
+  productId: string;
+  productName: string;
+  onClose?: () => void;
+}) {
   const [workflow, setWorkflow] = useState<Workflow>(null);
   const [priceResearch, setPriceResearch] = useState<PriceResearch>(null);
   const [shopifySync, setShopifySync] = useState<ShopifySync>(null);
@@ -111,7 +103,7 @@ export function WorkflowPanel({ productId, productName }: { productId: string; p
   }, [productId]);
 
   useEffect(() => {
-    if (workflow && !IN_PROGRESS_STATUSES.has(workflow.status) && pollRef.current) {
+    if (workflow && !WORKFLOW_IN_PROGRESS_STATUSES.has(workflow.status) && pollRef.current) {
       clearInterval(pollRef.current);
       pollRef.current = null;
     }
@@ -172,11 +164,18 @@ export function WorkflowPanel({ productId, productName }: { productId: string; p
 
   return (
     <section className="card">
-      <h2>{productName} — Süreç Durumu</h2>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
+        <h2>{productName} — Süreç Durumu</h2>
+        {onClose && (
+          <button type="button" className="btn btn-secondary" style={{ padding: "0.3rem 0.7rem" }} onClick={onClose}>
+            Kapat
+          </button>
+        )}
+      </div>
 
       {status && (
         <p className="status-banner" style={{ marginBottom: "1rem" }}>
-          {STATUS_LABELS[status] ?? status}
+          {WORKFLOW_STATUS_LABELS[status] ?? status}
         </p>
       )}
       {workflow?.errorMessage && <p className="status-banner error">{workflow.errorMessage}</p>}

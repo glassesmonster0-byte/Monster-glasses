@@ -14,13 +14,25 @@ export default function Home() {
     setActiveProduct(product);
     // Süreç otomatik başlar: kullanıcının tek işi ürünü girmekti.
     await fetch(`/api/products/${product.id}/price-research`, { method: "POST" });
+    historyRef.current?.refresh();
+  }
+
+  function handleSelect(product: { id: string; name: string }) {
+    setActiveProduct(product);
   }
 
   return (
     <>
       <ProductForm onCreated={handleCreated} />
-      {activeProduct && <WorkflowPanel productId={activeProduct.id} productName={activeProduct.name} />}
-      <ProductHistory ref={historyRef} />
+      {activeProduct && (
+        <WorkflowPanel
+          key={activeProduct.id}
+          productId={activeProduct.id}
+          productName={activeProduct.name}
+          onClose={() => setActiveProduct(null)}
+        />
+      )}
+      <ProductHistory ref={historyRef} onSelect={handleSelect} />
     </>
   );
 }

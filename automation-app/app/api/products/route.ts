@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ZodError } from "zod";
-import { createProduct, listProducts, productInputSchema } from "@/services/products";
+import { createProduct, listProductsWithStatus, productInputSchema } from "@/services/products";
 
 export async function GET() {
-  const items = await listProducts();
+  const items = await listProductsWithStatus();
   return NextResponse.json({ products: items });
 }
 

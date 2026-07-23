@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { desc, eq } from "drizzle-orm";
 import { db } from "@/db/client";
-import { products } from "@/db/schema";
+import { priceResearchRuns, products, workflowRuns } from "@/db/schema";
 import { newId } from "@/lib/id";
 import { saveProductImage } from "@/lib/media";
 
@@ -37,6 +37,31 @@ export async function createProduct(input: ProductInput, images: File[]) {
 
 export async function listProducts() {
   return db.select().from(products).orderBy(desc(products.createdAt));
+}
+
+/** Geçmiş tablosu için: her ürünün güncel süreç durumu ve onaylı fiyatıyla birlikte. */
+export async function listProductsWithStatus() {
+  const items = await listProducts();
+  return Promise.all(
+    items.map(async (product) => {
+      const [workflow] = await db
+        .select()
+        .from(workflowRuns)
+        .where(eq(workflowRuns.productId, product.id))
+        .limit(1);
+      const [priceResearch] = await db
+        .select()
+        .from(priceResearchRuns)
+        .where(eq(priceResearchRuns.productId, product.id))
+        .orderBy(desc(priceResearchRuns.createdAt))
+        .limit(1);
+      return {
+        ...product,
+        workflowStatus: workflow?.status ?? null,
+        approvedPrice: priceResearch?.approvedPrice ?? null,
+      };
+    }),
+  );
 }
 
 export async function getProduct(id: string) {
