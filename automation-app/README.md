@@ -64,4 +64,13 @@ Panel `http://localhost:3000` adresinde açılır. Sadece localhost'ta dinler, d
      -H "Content-Type: application/json" -d '{"approvedPrice": 499}'
    ```
 
-_(Modül 3–6 tamamlandıkça bu bölüme test adımları eklenecek.)_
+### Modül 3 — Shopify Entegrasyonu ✅
+
+1. Shopify admin panelinizde **Settings > Apps and sales channels > Develop apps > Create an app** ile bir custom app oluşturun; Admin API scope olarak en az `write_products`, `read_products` verin ve Admin API access token'ı `.env.local`'e (`SHOPIFY_ADMIN_API_ACCESS_TOKEN`) ve mağaza domaininizi (`SHOPIFY_STORE_DOMAIN`, ör. `liaxis.myshopify.com`) girin.
+2. Paneli açtığınızda sağ üstte "Shopify: bağlı (mağaza adınız)" görünmeli. Görünmüyorsa doğrudan kontrol edin: `curl http://localhost:3000/api/shopify/status`
+3. Yeni bir ürün ekleyip fiyatı onaylayın — onay anında Shopify senkronizasyonu otomatik tetiklenir. Birkaç saniye içinde "Shopify Senkronizasyonu" bölümünde "Ürün oluşturuldu" mesajını görmelisiniz; Shopify admin'de ürünün gerçekten oluştuğunu doğrulayın (başlık, fiyat, görsel, ACTIVE durumu).
+4. Aynı ürünü tekrar süreçten geçirirseniz (ör. `POST /api/products/<id>/shopify`) bu sefer **güncelleme** (productUpdate) çalışmalı — Shopify'da yeni bir ürün değil, var olanın güncellendiğini doğrulayın.
+5. Yanlış/eksik token ile deneyin — "bağlı değil" rozeti ve senkronizasyon adımında kırmızı hata + "Shopify'a Tekrar Gönder" butonu görünmeli; buton tekrar denemeyi tetiklemeli.
+6. Opsiyonel: `SHOPIFY_DEFAULT_COLLECTION_ID` ve `SHOPIFY_LOCATION_ID` girerek koleksiyon ataması ve envanter davranışını test edin.
+
+_(Modül 4–6 tamamlandıkça bu bölüme test adımları eklenecek.)_
