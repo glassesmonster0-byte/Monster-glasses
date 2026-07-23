@@ -101,4 +101,13 @@ Panel `http://localhost:3000` adresinde açılır. Sadece localhost'ta dinler, d
    curl http://localhost:3000/api/products/<PRODUCT_ID>/social-post
    ```
 
-_(Modül 6 tamamlandıkça bu bölüme test adımları eklenecek.)_
+### Modül 6 — Panel / Dashboard ✅
+
+1. Birkaç ürün ekleyip süreçlerini farklı noktalarda bırakın (biri sadece fiyat onayında kalsın, biri Shopify hatasında kalsın, vb.).
+2. "Kapat" butonuna basıp Süreç Durumu panelini kapatın — "Geçmiş" tablosunda her ürünün güncel durumu (`Durum` sütunu) ve varsa onaylı fiyatı görünmeli.
+3. Geçmiş tablosundaki herhangi bir satıra tıklayın — o ürünün Süreç Durumu paneli, kaldığı yerden (ilgili onay/tekrar dene butonlarıyla) tekrar açılmalı.
+4. Bu, tamamen lokal ve sadece sizin kullanımınız için bir panel — dışarıdan erişilebilir bir URL'i yok, sadece `localhost`'ta çalışıyor.
+
+## Genel Not
+
+Modül 4 ve 5'teki dış servis entegrasyonları (Higgsfield, Meta Graph API) gerçek API anahtarları olmadan bu ortamda uçtan uca test edilemedi — bunun yerine (a) resmi SDK/API şemaları koda göre doğrulandı, (b) eksik yapılandırma durumunda uygulamanın çökmeden anlaşılır hata gösterdiği ve "tekrar dene" akışlarının çalıştığı uçtan uca test edildi. Gerçek anahtarlarınızı girdikten sonra her modülün "Modül modül test" bölümündeki adımları izleyerek doğrulamanızı öneririz.
