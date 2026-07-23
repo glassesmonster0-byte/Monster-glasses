@@ -112,3 +112,11 @@ export async function approveContent(contentId: string) {
 export async function rejectContent(contentId: string) {
   await db.update(generatedContent).set({ status: "rejected" }).where(eq(generatedContent.id, contentId));
 }
+
+/** Bu ürün için üretilen tüm içerikler onaylandı/reddedildi mi (paylaşıma geçilebilir mi)? */
+export async function isContentReviewComplete(productId: string): Promise<{ complete: boolean; hasApproved: boolean }> {
+  const items = await listContentForProduct(productId);
+  const pending = items.some((c) => c.status === "ready" || c.status === "generating" || c.status === "pending");
+  const hasApproved = items.some((c) => c.status === "approved");
+  return { complete: !pending, hasApproved };
+}

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { approveContent, listContentForProduct } from "@/services/aiGeneration";
+import { publishIfReviewComplete } from "@/services/workflow/pipeline";
 
 export async function POST(
   _req: NextRequest,
@@ -7,6 +8,15 @@ export async function POST(
 ) {
   const { id, contentId } = await ctx.params;
   await approveContent(contentId);
+
+  // Bu, üründeki son bekleyen içerikse sosyal medya paylaşımı otomatik başlar.
+  let publishError: string | null = null;
+  try {
+    await publishIfReviewComplete(id);
+  } catch (err) {
+    publishError = err instanceof Error ? err.message : "Bilinmeyen hata";
+  }
+
   const content = await listContentForProduct(id);
-  return NextResponse.json({ content });
+  return NextResponse.json({ content, publishError });
 }

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { GeneratedContentPanel } from "./GeneratedContentPanel";
+import { SocialPostsPanel } from "./SocialPostsPanel";
 
 type Workflow = {
   id: string;
@@ -38,6 +39,15 @@ type ContentItem = {
   errorMessage: string | null;
 };
 
+type SocialPost = {
+  id: string;
+  platform: "instagram" | "facebook";
+  postType: "feed" | "story" | "reels";
+  status: "scheduled" | "posting" | "posted" | "failed";
+  errorMessage: string | null;
+  createdAt: string;
+};
+
 const STATUS_LABELS: Record<string, string> = {
   researching_price: "Fiyat araştırması yapılıyor…",
   awaiting_price_approval: "Fiyat onayı bekleniyor",
@@ -65,25 +75,29 @@ export function WorkflowPanel({ productId, productName }: { productId: string; p
   const [priceResearch, setPriceResearch] = useState<PriceResearch>(null);
   const [shopifySync, setShopifySync] = useState<ShopifySync>(null);
   const [content, setContent] = useState<ContentItem[]>([]);
+  const [socialPosts, setSocialPosts] = useState<SocialPost[]>([]);
   const [overridePrice, setOverridePrice] = useState("");
   const [approving, setApproving] = useState(false);
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   async function refresh() {
-    const [wfRes, prRes, shRes, ctRes] = await Promise.all([
+    const [wfRes, prRes, shRes, ctRes, spRes] = await Promise.all([
       fetch(`/api/products/${productId}/workflow`),
       fetch(`/api/products/${productId}/price-research`),
       fetch(`/api/products/${productId}/shopify`),
       fetch(`/api/products/${productId}/content`),
+      fetch(`/api/products/${productId}/social-post`),
     ]);
     const wf = await wfRes.json();
     const pr = await prRes.json();
     const sh = await shRes.json();
     const ct = await ctRes.json();
+    const sp = await spRes.json();
     setWorkflow(wf.workflow);
     setPriceResearch(pr.priceResearch);
     setShopifySync(sh.shopifySync);
     setContent(ct.content ?? []);
+    setSocialPosts(sp.posts ?? []);
   }
 
   useEffect(() => {
@@ -118,6 +132,17 @@ export function WorkflowPanel({ productId, productName }: { productId: string; p
     setApproving(true);
     try {
       await fetch(`/api/products/${productId}/shopify`, { method: "POST" });
+      pollRef.current ??= setInterval(refresh, 1500);
+      await refresh();
+    } finally {
+      setApproving(false);
+    }
+  }
+
+  async function handleRetrySocialPost() {
+    setApproving(true);
+    try {
+      await fetch(`/api/products/${productId}/social-post`, { method: "POST" });
       pollRef.current ??= setInterval(refresh, 1500);
       await refresh();
     } finally {
@@ -257,6 +282,7 @@ export function WorkflowPanel({ productId, productName }: { productId: string; p
       )}
 
       <GeneratedContentPanel productId={productId} content={content} onChanged={refresh} />
+      <SocialPostsPanel posts={socialPosts} onRetry={handleRetrySocialPost} retrying={approving} />
     </section>
   );
 }
