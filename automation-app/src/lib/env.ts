@@ -15,6 +15,10 @@ export const env = {
     storeDomain: process.env.SHOPIFY_STORE_DOMAIN,
     accessToken: process.env.SHOPIFY_ADMIN_API_ACCESS_TOKEN,
     apiVersion: process.env.SHOPIFY_API_VERSION ?? "2025-01",
+    // Opsiyonel: verilirse yeni ürünler bu koleksiyona ve stok konumuna atanır.
+    defaultCollectionId: process.env.SHOPIFY_DEFAULT_COLLECTION_ID,
+    locationId: process.env.SHOPIFY_LOCATION_ID,
+    defaultInventoryQuantity: Number(process.env.SHOPIFY_DEFAULT_INVENTORY_QUANTITY ?? 10),
   },
 
   higgsfield: {

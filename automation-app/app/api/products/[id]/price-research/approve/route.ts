@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { approvePriceResearch, getLatestPriceResearch } from "@/services/priceResearch";
+import { syncProductToShopify } from "@/services/shopify";
 import { setWorkflowStatus } from "@/services/workflow";
 
 export async function POST(
@@ -21,6 +22,20 @@ export async function POST(
 
   const updated = await approvePriceResearch(latest.id, approvedPrice);
   await setWorkflowStatus(id, "updating_shopify");
+
+  // Fiyat onaylandıktan sonra Shopify senkronizasyonu otomatik tetiklenir —
+  // kullanıcının tek işi ürünü girip fiyatı onaylamaktı.
+  try {
+    await syncProductToShopify(id);
+    await setWorkflowStatus(id, "generating_content");
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "Bilinmeyen hata";
+    await setWorkflowStatus(id, "failed", message);
+    return NextResponse.json({
+      priceResearch: updated,
+      shopifySyncError: message,
+    });
+  }
 
   return NextResponse.json({ priceResearch: updated });
 }

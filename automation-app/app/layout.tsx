@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ShopifyConnectionBadge } from "@/components/ShopifyConnectionBadge";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -18,6 +19,9 @@ export default function RootLayout({
           <div className="app-header-inner">
             <span className="brand">LIAXIS</span>
             <span className="brand-sub">Ürün Otomasyon Paneli — yalnızca lokal kullanım</span>
+            <span style={{ marginLeft: "auto" }}>
+              <ShopifyConnectionBadge />
+            </span>
           </div>
         </header>
         <main className="app-main">{children}</main>

@@ -18,6 +18,14 @@ type PriceResearch = {
   approvedPrice: number | null;
 } | null;
 
+type ShopifySync = {
+  action: "create" | "update";
+  success: boolean;
+  changesSummary: string | null;
+  errorMessage: string | null;
+  createdAt: string;
+} | null;
+
 const STATUS_LABELS: Record<string, string> = {
   researching_price: "Fiyat araştırması yapılıyor…",
   awaiting_price_approval: "Fiyat onayı bekleniyor",
@@ -43,19 +51,23 @@ function formatTRY(value: number) {
 export function WorkflowPanel({ productId, productName }: { productId: string; productName: string }) {
   const [workflow, setWorkflow] = useState<Workflow>(null);
   const [priceResearch, setPriceResearch] = useState<PriceResearch>(null);
+  const [shopifySync, setShopifySync] = useState<ShopifySync>(null);
   const [overridePrice, setOverridePrice] = useState("");
   const [approving, setApproving] = useState(false);
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   async function refresh() {
-    const [wfRes, prRes] = await Promise.all([
+    const [wfRes, prRes, shRes] = await Promise.all([
       fetch(`/api/products/${productId}/workflow`),
       fetch(`/api/products/${productId}/price-research`),
+      fetch(`/api/products/${productId}/shopify`),
     ]);
     const wf = await wfRes.json();
     const pr = await prRes.json();
+    const sh = await shRes.json();
     setWorkflow(wf.workflow);
     setPriceResearch(pr.priceResearch);
+    setShopifySync(sh.shopifySync);
   }
 
   useEffect(() => {
@@ -79,6 +91,17 @@ export function WorkflowPanel({ productId, productName }: { productId: string; p
     setApproving(true);
     try {
       await fetch(`/api/products/${productId}/price-research`, { method: "POST" });
+      pollRef.current ??= setInterval(refresh, 1500);
+      await refresh();
+    } finally {
+      setApproving(false);
+    }
+  }
+
+  async function handleRetryShopify() {
+    setApproving(true);
+    try {
+      await fetch(`/api/products/${productId}/shopify`, { method: "POST" });
       pollRef.current ??= setInterval(refresh, 1500);
       await refresh();
     } finally {
@@ -188,6 +211,30 @@ export function WorkflowPanel({ productId, productName }: { productId: string; p
                   Manuel Fiyatla Onayla
                 </button>
               </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {shopifySync && (
+        <div style={{ marginTop: "1.25rem", paddingTop: "1.25rem", borderTop: "1px solid var(--border)" }}>
+          <h3 style={{ fontSize: "0.9rem", marginBottom: "0.5rem" }}>Shopify Senkronizasyonu</h3>
+          {shopifySync.success ? (
+            <p className="status-banner success">
+              {shopifySync.action === "create" ? "Ürün oluşturuldu" : "Ürün güncellendi"} — {shopifySync.changesSummary}
+            </p>
+          ) : (
+            <div>
+              <p className="status-banner error">{shopifySync.errorMessage}</p>
+              <button
+                type="button"
+                className="btn btn-secondary"
+                style={{ marginTop: "0.5rem" }}
+                disabled={approving}
+                onClick={handleRetryShopify}
+              >
+                Shopify&apos;a Tekrar Gönder
+              </button>
             </div>
           )}
         </div>
