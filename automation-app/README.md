@@ -87,4 +87,18 @@ Panel `http://localhost:3000` adresinde açılır. Sadece localhost'ta dinler, d
    curl -X POST http://localhost:3000/api/products/<PRODUCT_ID>/content/<CONTENT_ID>/approve
    ```
 
-_(Modül 5–6 tamamlandıkça bu bölüme test adımları eklenecek.)_
+### Modül 5 — Sosyal Medya Paylaşımı (Instagram + Facebook) ✅
+
+1. developers.facebook.com'da bir uygulama oluşturup Instagram Business hesabınızı ve Facebook Sayfanızı bağlayın; bir Sayfa erişim token'ı (`META_PAGE_ACCESS_TOKEN`), Sayfa ID'si (`META_FACEBOOK_PAGE_ID`) ve Instagram İşletme Hesabı ID'sini (`META_INSTAGRAM_BUSINESS_ACCOUNT_ID`) `.env.local`'e girin.
+2. Panelde sağ üstte "Meta: bağlı (Sayfa adınız)" görünmeli. Kontrol: `curl http://localhost:3000/api/meta/status`
+3. Bir ürünün hem görselini hem videosunu onaylayın (ikisi de "ready" durumdan çıkıp karara bağlanınca, yani her ikisi de onayla/reddet ile işaretlenince) — bekleyen içerik kalmadığı ve en az bir onay olduğu anda paylaşım otomatik başlar.
+4. Panelde "Sosyal Medya Paylaşımları" bölümünde görsel için Instagram gönderi + story + Facebook fotoğraf, video için Instagram reels + Facebook video satırlarını görmelisiniz; her biri "paylaşıldı" ya da hata mesajıyla görünür.
+5. Instagram/Facebook'ta gönderilerin gerçekten yayınlandığını, caption ve hashtag'lerin marka tonuna uygun olduğunu doğrulayın.
+6. Yanlış/eksik token ile deneyin — "bağlı değil" rozeti ve her platform/format satırı için ayrı hata mesajı + "Başarısız Paylaşımları Tekrar Dene" butonu görünmeli.
+7. Doğrudan API testi:
+   ```bash
+   curl -X POST http://localhost:3000/api/products/<PRODUCT_ID>/social-post
+   curl http://localhost:3000/api/products/<PRODUCT_ID>/social-post
+   ```
+
+_(Modül 6 tamamlandıkça bu bölüme test adımları eklenecek.)_
