@@ -4,7 +4,9 @@ import { useRef, useState } from "react";
 
 type FieldErrors = Record<string, string[]>;
 
-export function ProductForm({ onCreated }: { onCreated: () => void }) {
+type CreatedProduct = { id: string; name: string };
+
+export function ProductForm({ onCreated }: { onCreated: (product: CreatedProduct) => void }) {
   const formRef = useRef<HTMLFormElement>(null);
   const [previews, setPreviews] = useState<string[]>([]);
   const [submitting, setSubmitting] = useState(false);
@@ -37,13 +39,13 @@ export function ProductForm({ onCreated }: { onCreated: () => void }) {
         return;
       }
 
-      setBanner({ type: "success", text: `"${data.product.name}" eklendi.` });
+      setBanner({ type: "success", text: `"${data.product.name}" eklendi, süreç başlatılıyor…` });
       formRef.current?.reset();
       setPreviews((prev) => {
         prev.forEach((url) => URL.revokeObjectURL(url));
         return [];
       });
-      onCreated();
+      onCreated({ id: data.product.id, name: data.product.name });
     } catch {
       setBanner({ type: "error", text: "Sunucuya ulaşılamadı." });
     } finally {
