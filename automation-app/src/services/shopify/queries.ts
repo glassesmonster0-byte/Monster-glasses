@@ -99,3 +99,39 @@ export const PRODUCT_CREATE_MEDIA_MUTATION = /* GraphQL */ `
     }
   }
 `;
+
+/** Genel dosya barındırma (ürüne bağlı olmayan) — AI ile üretilen görsel/video için herkese açık URL almak amacıyla kullanılır. */
+export const FILE_CREATE_MUTATION = /* GraphQL */ `
+  mutation FileCreate($files: [FileCreateInput!]!) {
+    fileCreate(files: $files) {
+      files {
+        id
+        alt
+        fileStatus
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`;
+
+export const NODE_FILE_STATUS_QUERY = /* GraphQL */ `
+  query NodeFileStatus($id: ID!) {
+    node(id: $id) {
+      ... on MediaImage {
+        fileStatus
+        image {
+          url
+        }
+      }
+      ... on Video {
+        fileStatus
+        sources {
+          url
+        }
+      }
+    }
+  }
+`;

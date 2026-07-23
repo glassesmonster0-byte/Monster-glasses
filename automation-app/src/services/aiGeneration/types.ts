@@ -5,8 +5,9 @@ export type GenerationInput = {
 };
 
 export type GenerationOutput = {
-  /** Publicly reachable URL of the generated asset (also reused later for Instagram/Facebook publishing). */
-  outputUrl: string;
+  /** Raw bytes of the generated asset — providers return bytes, not a hosted URL. */
+  outputBytes: Buffer;
+  mimeType: string;
 };
 
 export interface ImageGenProvider {

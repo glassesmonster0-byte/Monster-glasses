@@ -11,7 +11,10 @@
     "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
-    "@higgsfield/client": "^0.2.1",
+    "@ai-sdk/klingai": "^4.0.13",
+    "@ai-sdk/provider": "^4.0.3",
+    "@google/genai": "^2.13.0",
+    "ai": "^7.0.36",
     "better-sqlite3": "^13.0.1",
     "drizzle-orm": "^0.45.2",
     "next": "16.2.11",

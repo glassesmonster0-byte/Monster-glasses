@@ -89,6 +89,12 @@ export const generatedContent = sqliteTable("generated_content", {
   approvedAt: integer("approved_at", { mode: "timestamp" }),
 });
 
+/** Panelde değiştirilebilir ayarlar (ör. video sağlayıcı tercihi: veo | kling). */
+export const appSettings = sqliteTable("app_settings", {
+  key: text("key").primaryKey(),
+  value: text("value").notNull(),
+});
+
 /** Module 5 — social media posting log. */
 export const socialPosts = sqliteTable("social_posts", {
   id: text("id").primaryKey(),

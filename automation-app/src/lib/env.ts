@@ -21,17 +21,26 @@ export const env = {
     defaultInventoryQuantity: Number(process.env.SHOPIFY_DEFAULT_INVENTORY_QUANTITY ?? 10),
   },
 
-  higgsfield: {
-    // @higgsfield/client resmi SDK'sı KEY_ID:KEY_SECRET çiftiyle kimlik doğrular
-    // (bkz. https://higgsfield.ai dashboard > API). Tek bir opak "API key" değildir.
-    keyId: process.env.HIGGSFIELD_KEY_ID,
-    keySecret: process.env.HIGGSFIELD_KEY_SECRET,
-    // Higgsfield dashboard'unuzdaki model kataloğundan aldığınız tam endpoint
-    // string'i — burada varsayılan olarak yazdıklarımızı ilk kullanımdan önce
-    // mutlaka kendi hesabınızdaki gerçek değerle doğrulayın.
-    imageEndpoint: process.env.HIGGSFIELD_IMAGE_ENDPOINT ?? "nano-banana-pro/text-to-image",
-    videoEndpoint: process.env.HIGGSFIELD_VIDEO_ENDPOINT ?? "/v1/image2video/kling",
+  google: {
+    // aistudio.google.com/apikey üzerinden alınır. @google/genai resmi SDK'sı
+    // ile doğrudan Google'a bağlanılır (aracı bir servis yok).
+    apiKey: process.env.GOOGLE_AI_API_KEY,
+    // Nano Banana Pro (Gemini 3 Pro Image) — görsel üretimi.
+    imageModel: process.env.GOOGLE_IMAGE_MODEL ?? "gemini-3-pro-image-preview",
+    // Veo 3.1 (stabil/GA) — video üretimi.
+    veoModel: process.env.GOOGLE_VEO_MODEL ?? "veo-3.1-generate-001",
   },
+
+  kling: {
+    // Kling AI, tek bir opak API key değil access key + secret key çifti
+    // kullanır (app.klingai.com > API Key sayfasından alınır).
+    accessKey: process.env.KLING_ACCESS_KEY,
+    secretKey: process.env.KLING_SECRET_KEY,
+    videoModel: process.env.KLING_VIDEO_MODEL ?? "kling-v2.6-i2v",
+  },
+
+  // Panelde değiştirilebilir varsayılan video sağlayıcısı: "veo" veya "kling".
+  defaultVideoProvider: (process.env.DEFAULT_VIDEO_PROVIDER ?? "veo") as "veo" | "kling",
 
   meta: {
     apiVersion: process.env.META_GRAPH_API_VERSION ?? "v21.0",

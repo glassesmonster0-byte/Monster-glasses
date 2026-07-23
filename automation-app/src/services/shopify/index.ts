@@ -6,7 +6,9 @@ import { newId } from "@/lib/id";
 import { getProduct } from "@/services/products";
 import { getLatestPriceResearch } from "@/services/priceResearch";
 import { isShopifyConfigured, shopifyGraphQL } from "./client";
-import { uploadProductImage } from "./media";
+import { hostMediaPubliclyOnShopify, uploadProductImage } from "./media";
+
+export { hostMediaPubliclyOnShopify, isShopifyConfigured };
 import {
   PRODUCT_CREATE_MUTATION,
   PRODUCT_UPDATE_MUTATION,

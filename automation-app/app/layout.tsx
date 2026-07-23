@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { MetaConnectionBadge } from "@/components/MetaConnectionBadge";
 import { ShopifyConnectionBadge } from "@/components/ShopifyConnectionBadge";
+import { VideoProviderSetting } from "@/components/VideoProviderSetting";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -20,7 +21,8 @@ export default function RootLayout({
           <div className="app-header-inner">
             <span className="brand">LIAXIS</span>
             <span className="brand-sub">Ürün Otomasyon Paneli — yalnızca lokal kullanım</span>
-            <span style={{ marginLeft: "auto", display: "flex", gap: "0.5rem" }}>
+            <span style={{ marginLeft: "auto", display: "flex", gap: "0.75rem", alignItems: "center" }}>
+              <VideoProviderSetting />
               <ShopifyConnectionBadge />
               <MetaConnectionBadge />
             </span>

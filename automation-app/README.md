@@ -29,9 +29,14 @@ Panel `http://localhost:3000` adresinde açılır. Sadece localhost'ta dinler, d
 | Anahtar | Nereden alınır | Hangi modül |
 |---|---|---|
 | `SERPAPI_API_KEY` | serpapi.com — Google Shopping sonuçları için | Modül 2 (fiyat araştırma) |
-| `SHOPIFY_STORE_DOMAIN`, `SHOPIFY_ADMIN_API_ACCESS_TOKEN` | Shopify admin > Settings > Apps and sales channels > Develop apps > Create an app (Admin API scopes: `write_products`, `read_products`) | Modül 3 |
-| `HIGGSFIELD_API_KEY` | higgsfield.ai hesabınızdan | Modül 4 (görsel: Nano Banana Pro, video: Kling) |
+| `SHOPIFY_STORE_DOMAIN`, `SHOPIFY_ADMIN_API_ACCESS_TOKEN` | Shopify admin > Settings > Apps and sales channels > Develop apps > Create an app (Admin API scopes: `write_products`, `read_products`) | Modül 3 (ve Modül 4'ün üretilen içeriği barındırması için) |
+| `GOOGLE_AI_API_KEY` | **aistudio.google.com/apikey** — "Create API key" ile alınır | Modül 4 — görsel (Nano Banana Pro / `gemini-3-pro-image-preview`) ve video (Veo 3.1 / `veo-3.1-generate-001`) |
+| `KLING_ACCESS_KEY`, `KLING_SECRET_KEY` | **app.klingai.com** > hesap ayarları > API Key sayfası (access key + secret key çifti oluşturun) | Modül 4 — video (Kling, panelden seçilebilir alternatif) |
 | `META_PAGE_ACCESS_TOKEN`, `META_FACEBOOK_PAGE_ID`, `META_INSTAGRAM_BUSINESS_ACCOUNT_ID` | developers.facebook.com'da bir uygulama oluşturup Instagram Business hesabınızı ve Facebook Sayfanızı bağlayarak | Modül 5 |
+
+### Google AI (Nano Banana Pro + Veo 3.1) — önemli maliyet notu
+
+Bu iki model **Gemini Developer API üzerinde ücretsiz kotaya sahip değildir** — her çağrı, API anahtarınızın bağlı olduğu Google Cloud projesinde faturalandırma etkinse ücretli olarak çalışır, değilse hata döner. API seviyesinde "önce ücretsiz dene, kota bitince ücretliye geç" diye bir mekanizma yok (bu, proje ayarı, kod değil); bu yüzden uygulama hiçbir zaman sizi haberdar etmeden ücretli bir çağrı yapmaz ya da farklı bir davranışa geçmez — kota/faturalama hatası olduğunda panelde net bir Türkçe mesaj gösterir (`src/services/aiGeneration/quotaError.ts`). Ücretsiz denemek isterseniz Google AI Studio arayüzünden (aistudio.google.com) prototipleme yapabilirsiniz; API üzerinden bu modelleri kullanmak için faturalandırma şart.
 
 ## Modül modül test
 
@@ -73,15 +78,22 @@ Panel `http://localhost:3000` adresinde açılır. Sadece localhost'ta dinler, d
 5. Yanlış/eksik token ile deneyin — "bağlı değil" rozeti ve senkronizasyon adımında kırmızı hata + "Shopify'a Tekrar Gönder" butonu görünmeli; buton tekrar denemeyi tetiklemeli.
 6. Opsiyonel: `SHOPIFY_DEFAULT_COLLECTION_ID` ve `SHOPIFY_LOCATION_ID` girerek koleksiyon ataması ve envanter davranışını test edin.
 
-### Modül 4 — AI Görsel/Video Üretimi (Higgsfield) ✅
+### Modül 4 — AI Görsel/Video Üretimi (doğrudan Google + Kling) ✅
 
-1. higgsfield.ai dashboard'unuzdan bir KEY_ID/KEY_SECRET çifti alıp `.env.local`'e (`HIGGSFIELD_KEY_ID`, `HIGGSFIELD_KEY_SECRET`) girin.
-2. **Önemli:** `HIGGSFIELD_IMAGE_ENDPOINT` ve `HIGGSFIELD_VIDEO_ENDPOINT` değerlerini dashboard'unuzdaki model kataloğunda ilgili modelin ("Nano Banana Pro", "Kling") API sekmesinde gösterilen tam endpoint string'iyle karşılaştırın — bunlar makul varsayılanlar ama Higgsfield'in genel dokümanına erişemediğimiz için kesinlik garanti edemiyoruz. `src/services/aiGeneration/higgsfieldProvider.ts` içindeki yorumda detay var.
-3. Fiyat onayı → Shopify senkronizasyonu başarılı olduğunda içerik üretimi otomatik tetiklenir. Panelde "Üretilen Reklam İçerikleri" altında bir görsel ve bir video kartı, her biri "Üretiliyor…" durumuyla belirir.
-4. Üretim bitince kart içinde görseli/videoyu ve kullanılan prompt'u görmelisiniz; "Onayla / Reddet / Yeniden Üret" butonları aktif olmalı.
-5. Yanlış kimlik bilgileriyle veya yapılandırma eksikken deneyin — her kart bağımsız olarak "failed" durumuna düşüp hata mesajını göstermeli (biri başarısız olsa diğeri yine de denenir), "Yeniden Üret" butonu çalışmalı.
-6. Doğrudan API testi (Shopify adımını atlayıp sadece içerik üretimini test etmek için):
+Higgsfield gibi bir aracı servis **yok** — görsel doğrudan Google'ın Gemini Developer API'sine (`@google/genai` resmi SDK'sı), video ise seçtiğiniz sağlayıcıya göre doğrudan Google'a (Veo 3.1) ya da doğrudan Kling'e (`@ai-sdk/klingai` resmi Vercel AI SDK sağlayıcısı) bağlanıyor.
+
+1. `aistudio.google.com/apikey`'den bir anahtar alıp `.env.local`'e `GOOGLE_AI_API_KEY` olarak girin. **Faturalandırmanın etkin olduğu bir Google Cloud projesine bağlı olmalı** — yukarıdaki maliyet notuna bakın.
+2. (Opsiyonel, video için alternatif) `app.klingai.com`'dan bir access key/secret key çifti alıp `KLING_ACCESS_KEY` / `KLING_SECRET_KEY` olarak girin.
+3. Panelin sağ üstündeki **"Video:"** dropdown'ından "Google Veo 3.1" veya "Kling" seçin — bu tercih kalıcıdır (veritabanında saklanır) ve bundan sonraki tüm video üretimlerinde kullanılır.
+4. Fiyat onayı → Shopify senkronizasyonu başarılı olduğunda içerik üretimi otomatik tetiklenir. Panelde "Üretilen Reklam İçerikleri" altında bir görsel (Nano Banana Pro) ve bir video (seçili sağlayıcı) kartı, her biri "Üretiliyor…" durumuyla belirir. Video üretimi (özellikle Veo) birkaç dakika sürebilir.
+5. Üretim bitince kart içinde görseli/videoyu ve kullanılan prompt'u görmelisiniz; "Onayla / Reddet / Yeniden Üret" butonları aktif olmalı.
+6. **Neden Shopify'a yükleniyor?** Üretilen içerik, Instagram/Facebook'a paylaşılabilmesi (Meta Graph API herkese açık bir URL ister) ve panelde önizlenebilmesi için otomatik olarak Shopify'ın dosya deposuna (`fileCreate`) yükleniyor — lokal uygulamanın kendi herkese açık bir adresi olmadığından, zaten bağlı olduğunuz Shopify mağazası bu amaçla kullanılıyor. Bu adım için Shopify'ın da yapılandırılmış olması gerekir (Modül 3).
+7. Yanlış kimlik bilgileriyle, kota/faturalama sorunuyla veya yapılandırma eksikken deneyin — her kart bağımsız olarak "failed" durumuna düşüp anlaşılır bir hata mesajı göstermeli (biri başarısız olsa diğeri yine de denenir), "Yeniden Üret" butonu çalışmalı.
+8. Video sağlayıcısını değiştirip aynı ürün için "Yeniden Üret" deneyin — bir sonraki video üretiminin yeni seçili sağlayıcıyı (`provider`/`model` sütunlarında görünür) kullandığını doğrulayın.
+9. Doğrudan API testi (Shopify adımını atlayıp sadece içerik üretimini test etmek için):
    ```bash
+   curl http://localhost:3000/api/settings/video-provider
+   curl -X POST http://localhost:3000/api/settings/video-provider -H "Content-Type: application/json" -d '{"provider":"kling"}'
    curl -X POST http://localhost:3000/api/products/<PRODUCT_ID>/content
    curl http://localhost:3000/api/products/<PRODUCT_ID>/content
    curl -X POST http://localhost:3000/api/products/<PRODUCT_ID>/content/<CONTENT_ID>/approve
@@ -110,4 +122,4 @@ Panel `http://localhost:3000` adresinde açılır. Sadece localhost'ta dinler, d
 
 ## Genel Not
 
-Modül 4 ve 5'teki dış servis entegrasyonları (Higgsfield, Meta Graph API) gerçek API anahtarları olmadan bu ortamda uçtan uca test edilemedi — bunun yerine (a) resmi SDK/API şemaları koda göre doğrulandı, (b) eksik yapılandırma durumunda uygulamanın çökmeden anlaşılır hata gösterdiği ve "tekrar dene" akışlarının çalıştığı uçtan uca test edildi. Gerçek anahtarlarınızı girdikten sonra her modülün "Modül modül test" bölümündeki adımları izleyerek doğrulamanızı öneririz.
+Modül 4 ve 5'teki dış servis entegrasyonları (Google Gemini/Veo, Kling, Meta Graph API) gerçek API anahtarları olmadan bu ortamda uçtan uca test edilemedi — bunun yerine (a) resmi SDK'ların (`@google/genai`, `@ai-sdk/klingai`) TypeScript tip tanımları ve README'leri üzerinden model adları/endpoint şekilleri doğrulandı, (b) eksik yapılandırma durumunda uygulamanın çökmeden anlaşılır hata gösterdiği ve "tekrar dene" akışlarının çalıştığı uçtan uca test edildi. Gerçek anahtarlarınızı girdikten sonra her modülün "Modül modül test" bölümündeki adımları izleyerek doğrulamanızı öneririz.
