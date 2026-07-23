@@ -109,6 +109,7 @@ a {
 
 .field input[type="text"],
 .field input[type="url"],
+.field input[type="password"],
 .field textarea,
 .field select,
 input.override-input {

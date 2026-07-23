@@ -8,6 +8,12 @@ export const env = {
   databasePath: process.env.DATABASE_PATH ?? "./data/liaxis.db",
   mediaStoragePath: process.env.MEDIA_STORAGE_PATH ?? "./data/media",
 
+  // Paneli internete açtığınızda giriş ekranını korur. İkisi de boşsa ve
+  // NODE_ENV production ise middleware uygulamayı çalıştırmayı reddeder —
+  // şifresiz halde internete açık kalmasını engellemek için.
+  appPassword: process.env.APP_PASSWORD,
+  authSecret: process.env.AUTH_SECRET,
+
   serpApiKey: process.env.SERPAPI_API_KEY,
   defaultMarkupPercent: Number(process.env.DEFAULT_MARKUP_PERCENT ?? 150),
 
