@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getLatestShopifySync, syncProductToShopify } from "@/services/shopify";
-import { setWorkflowStatus } from "@/services/workflow";
+import { getLatestShopifySync } from "@/services/shopify";
+import { syncToShopifyAndGenerateContent } from "@/services/workflow/pipeline";
 
 export async function GET(_req: NextRequest, ctx: RouteContext<"/api/products/[id]/shopify">) {
   const { id } = await ctx.params;
@@ -8,16 +8,15 @@ export async function GET(_req: NextRequest, ctx: RouteContext<"/api/products/[i
   return NextResponse.json({ shopifySync: sync });
 }
 
+/** Manuel "tekrar gönder" aksiyonu — Shopify'dan devam edip içerik üretimine kadar zinciri sürdürür. */
 export async function POST(_req: NextRequest, ctx: RouteContext<"/api/products/[id]/shopify">) {
   const { id } = await ctx.params;
 
   try {
-    const result = await syncProductToShopify(id);
-    await setWorkflowStatus(id, "generating_content");
-    return NextResponse.json({ result });
+    await syncToShopifyAndGenerateContent(id);
+    return NextResponse.json({ ok: true });
   } catch (err) {
     const message = err instanceof Error ? err.message : "Bilinmeyen hata";
-    await setWorkflowStatus(id, "failed", message);
-    return NextResponse.json({ error: "shopify_sync_failed", message }, { status: 502 });
+    return NextResponse.json({ error: "pipeline_failed", message }, { status: 502 });
   }
 }

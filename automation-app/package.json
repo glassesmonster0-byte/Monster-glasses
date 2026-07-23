@@ -11,6 +11,7 @@
     "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
+    "@higgsfield/client": "^0.2.1",
     "better-sqlite3": "^13.0.1",
     "drizzle-orm": "^0.45.2",
     "next": "16.2.11",

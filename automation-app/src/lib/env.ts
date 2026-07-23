@@ -22,10 +22,15 @@ export const env = {
   },
 
   higgsfield: {
-    apiKey: process.env.HIGGSFIELD_API_KEY,
-    baseUrl: process.env.HIGGSFIELD_API_BASE_URL ?? "https://api.higgsfield.ai",
-    imageModel: process.env.HIGGSFIELD_IMAGE_MODEL ?? "nano-banana-pro",
-    videoModel: process.env.HIGGSFIELD_VIDEO_MODEL ?? "kling",
+    // @higgsfield/client resmi SDK'sı KEY_ID:KEY_SECRET çiftiyle kimlik doğrular
+    // (bkz. https://higgsfield.ai dashboard > API). Tek bir opak "API key" değildir.
+    keyId: process.env.HIGGSFIELD_KEY_ID,
+    keySecret: process.env.HIGGSFIELD_KEY_SECRET,
+    // Higgsfield dashboard'unuzdaki model kataloğundan aldığınız tam endpoint
+    // string'i — burada varsayılan olarak yazdıklarımızı ilk kullanımdan önce
+    // mutlaka kendi hesabınızdaki gerçek değerle doğrulayın.
+    imageEndpoint: process.env.HIGGSFIELD_IMAGE_ENDPOINT ?? "nano-banana-pro/text-to-image",
+    videoEndpoint: process.env.HIGGSFIELD_VIDEO_ENDPOINT ?? "/v1/image2video/kling",
   },
 
   meta: {

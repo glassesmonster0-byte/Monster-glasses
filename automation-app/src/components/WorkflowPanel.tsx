@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { GeneratedContentPanel } from "./GeneratedContentPanel";
 
 type Workflow = {
   id: string;
@@ -25,6 +26,17 @@ type ShopifySync = {
   errorMessage: string | null;
   createdAt: string;
 } | null;
+
+type ContentItem = {
+  id: string;
+  type: "image" | "video";
+  provider: string;
+  model: string;
+  prompt: string;
+  outputPath: string | null;
+  status: "pending" | "generating" | "ready" | "approved" | "rejected" | "failed";
+  errorMessage: string | null;
+};
 
 const STATUS_LABELS: Record<string, string> = {
   researching_price: "Fiyat araştırması yapılıyor…",
@@ -52,22 +64,26 @@ export function WorkflowPanel({ productId, productName }: { productId: string; p
   const [workflow, setWorkflow] = useState<Workflow>(null);
   const [priceResearch, setPriceResearch] = useState<PriceResearch>(null);
   const [shopifySync, setShopifySync] = useState<ShopifySync>(null);
+  const [content, setContent] = useState<ContentItem[]>([]);
   const [overridePrice, setOverridePrice] = useState("");
   const [approving, setApproving] = useState(false);
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   async function refresh() {
-    const [wfRes, prRes, shRes] = await Promise.all([
+    const [wfRes, prRes, shRes, ctRes] = await Promise.all([
       fetch(`/api/products/${productId}/workflow`),
       fetch(`/api/products/${productId}/price-research`),
       fetch(`/api/products/${productId}/shopify`),
+      fetch(`/api/products/${productId}/content`),
     ]);
     const wf = await wfRes.json();
     const pr = await prRes.json();
     const sh = await shRes.json();
+    const ct = await ctRes.json();
     setWorkflow(wf.workflow);
     setPriceResearch(pr.priceResearch);
     setShopifySync(sh.shopifySync);
+    setContent(ct.content ?? []);
   }
 
   useEffect(() => {
@@ -239,6 +255,8 @@ export function WorkflowPanel({ productId, productName }: { productId: string; p
           )}
         </div>
       )}
+
+      <GeneratedContentPanel productId={productId} content={content} onChanged={refresh} />
     </section>
   );
 }
